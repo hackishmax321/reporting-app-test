@@ -41,6 +41,7 @@
     bottom: 0;
     height: calc(100vh - 60px);
     width: 320px;
+    z-index: 99;
 }
 
 .sidebar-brand {

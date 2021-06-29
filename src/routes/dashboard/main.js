@@ -16,7 +16,6 @@ function Main(){
     return (
         <>
             <SideBar/>
-            {/* <DashboardMain/> */}
 
             <Switch>
                 <Route path={path} exact component={DashboardMain}/>

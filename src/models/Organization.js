@@ -1,7 +1,6 @@
 
 class Organization {
-    constructor(id, name, description, address, incharge, contact, category){
-        this.id = id;
+    constructor(name, description, address, incharge, contact, category){
         this.name = name;
         this.description = description;
         this.address = address;
