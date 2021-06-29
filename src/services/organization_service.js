@@ -6,7 +6,7 @@ import {handleErrors} from './error_handling';
 // import Employee from '../models/Patient';
 
 
-const path = "/v1/organizations";
+const path = "https://reporting-app-clab-test.herokuapp.com/v1/organizations";
 var organizations_list = [];
 
 class EmployeeService {
