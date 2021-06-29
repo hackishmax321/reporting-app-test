@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
+import { Link, useRouteMatch } from 'react-router-dom';
 import './sidebar.css';
 
 const SideBar = ({showSideBar}) => {
-
+    const {path, url} = useRouteMatch();
     const [sidebar, setSidebar] = useState(true);
 
     return (
@@ -44,10 +45,10 @@ const SideBar = ({showSideBar}) => {
                 <div className="sidebar-menu">
                     <span className="menu-heading">Main</span>
                     <ul>
-                        <li className="active"><a href="#" ><span><i class="fas fa-shapes font-special"></i></span> <span>DASHBOARD</span></a></li>
-                        <li><a href="#" className="font-secondary"><span><i class="far fa-building font-special"></i></span> <span>ORGANIZATIONS</span></a></li>
-                        <li><a href="#"><span><i class="fas fa-users-cog font-special"></i></span> <span>SITE USERS</span></a></li>
-                        <li><a href="#"><span><i class="fas fa-globe-asia font-special"></i></span> <span>OTHER</span></a></li>
+                        <li className="active"><Link to={url} ><span><i class="fas fa-shapes font-special"></i></span> <span>DASHBOARD</span></Link></li>
+                        <li><Link to={`${url}/organizations`}><span><i class="far fa-building font-special"></i></span> <span>ORGANIZATIONS</span></Link></li>
+                        <li><Link to={`${url}/users`}><span><i class="fas fa-users-cog font-special"></i></span> <span>SITE USERS</span></Link></li>
+                        <li><Link to={`${url}/map`}><span><i class="fas fa-globe-asia font-special"></i></span> <span>MAP</span></Link></li>
                     </ul>
                     <span className="menu-heading">Site Settings</span>
                     <ul>

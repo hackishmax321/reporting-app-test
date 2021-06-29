@@ -1,5 +1,6 @@
 import React from 'react';
 import './navbar.css';
+import { Link } from 'react-router-dom';
 
 const NavBar = ({sidebarOpen, openSidebar}) => {
 
@@ -10,10 +11,10 @@ const NavBar = ({sidebarOpen, openSidebar}) => {
             </div>
 
             <div className="nav-left">
-                <a href="#" className="active">MAIN</a>
-                <a href="#">MAP</a>
-                <a href="#">INFORMATION</a>
-                <a href="#">ORGANIZATIONS</a>
+                <Link to="/map">MAIN</Link>
+                <Link to="/map">MAP</Link>
+                <Link to="/">INFORMATION</Link>
+                <Link to="/">ORGANIZATIONS</Link>
             </div>
 
             <div className="nav-right">

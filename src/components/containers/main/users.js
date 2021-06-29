@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import './main.css';
-import UserTable from '../tables/table-user';
+import UsersTable from '../tables/table-users';
 
-const DashboardMain = () => {
+const DashboardUser = () => {
 
 
     return (
@@ -51,25 +51,20 @@ const DashboardMain = () => {
                 <br></br>
 
                 <div className="container-header">
-                    <h2>Dashboard</h2>
+                    <h2>Users </h2>
                     <p>Dashboard consist of necessary settings for admins and paticular management roles.</p>
                 </div>
 
                 <br></br>
 
                 <div className="card">
-                    <UserTable />
+                    <UsersTable />
                 </div>
 
                 <br></br>
 
                 <div className="card">
-                    <i class="fas fa-spinner font-special"></i>
-                        
-                    <div className="card-content">
-                        <h4>[SIMPLE TITLE]</h4>
-                        <p>Card consist of necessary options in a inateractive manner.</p>
-                    </div>
+                    
                 </div>
             </div>
 
@@ -77,4 +72,4 @@ const DashboardMain = () => {
     );
 }
 
-export default DashboardMain;
+export default DashboardUser;

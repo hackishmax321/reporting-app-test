@@ -1,15 +1,18 @@
 import React, { useEffect } from 'react';
+import { BrowserRouter as Router, Route, Switch, useRouteMatch } from 'react-router-dom';
 import './main.css';
-import UserTable from '../tables/table-user';
+import UsersTable from '../tables/table-users';
+import OrganizationForm from './forms/organization-form';
+import OrganizationsTable from '../tables/table-organizations';
 
-const DashboardMain = () => {
-
+const DashboardOrganization = () => {
+    const {path, url} = useRouteMatch();
 
     return (
         <>
             <div className="container-dashboard">
                 <div className="container-header">
-                    <h2>Dashboard</h2>
+                    <h2>Organizations</h2>
                     <p>Dashboard consist of necessary settings for admins and paticular management roles.</p>
                 </div>
 
@@ -18,7 +21,7 @@ const DashboardMain = () => {
                         <i class="fas fa-envelope-open-text"></i>
                         
                         <div className="card-content">
-                            <h4>Messages</h4>
+                            <h4>Add Organization</h4>
                             <p>Card consist of necessary options in a inateractive manner.</p>
                         </div>
                     </div>
@@ -51,25 +54,23 @@ const DashboardMain = () => {
                 <br></br>
 
                 <div className="container-header">
-                    <h2>Dashboard</h2>
+                    <h2>Organizations Brief </h2>
                     <p>Dashboard consist of necessary settings for admins and paticular management roles.</p>
                 </div>
 
                 <br></br>
 
                 <div className="card">
-                    <UserTable />
+                    <Router>
+                        <Route path={path} exact component={OrganizationsTable}/>
+                        <Route path={`${path}/form`} exact component={OrganizationForm}/>
+                    </Router>
                 </div>
 
                 <br></br>
 
                 <div className="card">
-                    <i class="fas fa-spinner font-special"></i>
-                        
-                    <div className="card-content">
-                        <h4>[SIMPLE TITLE]</h4>
-                        <p>Card consist of necessary options in a inateractive manner.</p>
-                    </div>
+                    
                 </div>
             </div>
 
@@ -77,4 +78,4 @@ const DashboardMain = () => {
     );
 }
 
-export default DashboardMain;
+export default DashboardOrganization;

@@ -1,10 +1,9 @@
 import './App.css';
-import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Home from './routes/home';
 import NavBar from './components/containers/navbar/navbar';
-import SideBar from './components/containers/sidebar/sidebar';
 import Main from './routes/dashboard/main';
-import DashboardMain from './components/containers/main/main';
+import Map from './routes/map';
 import { useState } from 'react';
 
 function App() {
@@ -15,12 +14,12 @@ function App() {
     <div className="App">
       <Router>
         <NavBar/>
-        <SideBar/>
-        <DashboardMain/>
         <Switch>
-          <Route path="/" component={Home}/>  
+          <Route path="/" component={Main}/>  
           <Route path="/home" exact component={Home}/>
-          <Route path="/dashboard" exact component={Main}/>
+          <Route path="/map" exact component={Map}/>
+          <Route path="/admin" exact component={Main}/>
+          <Route path="/dashboard" component={Main}/>
         </Switch>
       </Router>
 
