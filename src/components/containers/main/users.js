@@ -8,7 +8,7 @@ const DashboardUser = () => {
     return (
         <>
             <div className="container-dashboard">
-                <div className="container-header">
+                {/* <div className="container-header">
                     <h2>Dashboard</h2>
                     <p>Dashboard consist of necessary settings for admins and paticular management roles.</p>
                 </div>
@@ -48,7 +48,7 @@ const DashboardUser = () => {
                     </div>
                 </div>
 
-                <br></br>
+                <br></br> */}
 
                 <div className="container-header">
                     <h2>Users </h2>

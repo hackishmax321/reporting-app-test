@@ -11,10 +11,11 @@ const NavBar = ({sidebarOpen, openSidebar}) => {
             </div>
 
             <div className="nav-left">
-                <Link to="/map">MAIN</Link>
+                <h4 className="font-secondary">REPORTING APP</h4>
+                {/* <Link to="/map">MAIN</Link>
                 <Link to="/map">MAP</Link>
                 <Link to="/">INFORMATION</Link>
-                <Link to="/">ORGANIZATIONS</Link>
+                <Link to="/">ORGANIZATIONS</Link> */}
             </div>
 
             <div className="nav-right">

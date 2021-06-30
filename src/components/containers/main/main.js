@@ -8,12 +8,12 @@ const DashboardMain = () => {
     return (
         <>
             <div className="container-dashboard">
-                <div className="container-header">
+                {/* <div className="container-header">
                     <h2>Dashboard</h2>
                     <p>Dashboard consist of necessary settings for admins and paticular management roles.</p>
-                </div>
+                </div> */}
 
-                <div className="cards">
+                {/* <div className="cards">
                     <div className="card">
                         <i class="fas fa-envelope-open-text"></i>
                         
@@ -46,9 +46,9 @@ const DashboardMain = () => {
                             <p>Card consist of necessary options in a inateractive manner.</p>
                         </div>
                     </div>
-                </div>
+                </div> */}
 
-                <br></br>
+                {/* <br></br> */}
 
                 <div className="container-header">
                     <h2>Dashboard</h2>

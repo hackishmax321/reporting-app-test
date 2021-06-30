@@ -47,7 +47,27 @@ class EmployeeService {
 
     async getOfficials(category){
         officials_list = [];
+        console.log("Officials loaded");
         await axios.get(path).then((response)=>{
+            if(category){
+                response.data.results.forEach(doc=>{
+                    if(category===doc.status){
+                        officials_list.push(doc);
+                    }
+                });
+            } else {
+                response.data.results.forEach(doc=>{
+                    officials_list.push(doc);
+                });
+            }
+            
+        }).catch(handleErrors);
+        return officials_list;
+    }
+
+    async getOfficialsByOrganization(org, category){
+        officials_list = [];
+        await axios.get(`${path}/byOrganization/${org}`).then((response)=>{
             if(category){
                 response.data.results.forEach(doc=>{
                     if(category===doc.status){

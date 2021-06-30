@@ -21,7 +21,7 @@ function Main(){
                 <Route path={path} exact component={DashboardMain}/>
                 <Route path={`${path}/users`}exact component={Users}/>
                 <Route path={`${path}/map`}exact component={Map}/>
-                <Route path={`${path}/organizations`} component={Organizations}/>
+                <Route path={`${path}/organizations`} exact component={Organizations}/>
             </Switch>
 
 

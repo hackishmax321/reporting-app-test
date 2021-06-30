@@ -38,8 +38,8 @@ const SideBar = ({showSideBar}) => {
                 
             </div> */}
                 <div className="sidebar-brand">
-                    <h4 className="font-special">ADMIN PANNEL</h4>
-                    <p className="font-secondary">Following menu conclude of options that will available for Organization admins and super admins.</p>
+                    {/* <h4 className="font-special">ADMIN PANNEL</h4> */}
+                    {/* <p className="font-secondary">Following menu conclude of options that will available for Organization admins and super admins.</p> */}
                 </div>
 
                 <div className="sidebar-menu">

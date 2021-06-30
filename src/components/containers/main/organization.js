@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
-import { BrowserRouter as Router, Route, Switch, useRouteMatch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, useRouteMatch, Link } from 'react-router-dom';
 import './main.css';
 import UsersTable from '../tables/table-users';
-import OrganizationForm from './forms/organization-form';
 import OrganizationsTable from '../tables/table-organizations';
+import OrganizationSingle from './organization-single';
+import OrganizationForm from './forms/organization-form';
 
 const DashboardOrganization = () => {
     const {path, url} = useRouteMatch();
@@ -11,7 +12,7 @@ const DashboardOrganization = () => {
     return (
         <>
             <div className="container-dashboard">
-                <div className="container-header">
+                {/* <div className="container-header">
                     <h2>Organizations</h2>
                     <p>Dashboard consist of necessary settings for admins and paticular management roles.</p>
                 </div>
@@ -23,6 +24,7 @@ const DashboardOrganization = () => {
                         <div className="card-content">
                             <h4>Add Organization</h4>
                             <p>Card consist of necessary options in a inateractive manner.</p>
+                            <Link to={`${url}/form`}><button className="btn btn-primary">VISIT</button></Link>
                         </div>
                     </div>
                     <div className="card">
@@ -51,7 +53,7 @@ const DashboardOrganization = () => {
                     </div>
                 </div>
 
-                <br></br>
+                <br></br> */}
 
                 <div className="container-header">
                     <h2>Organizations Brief </h2>
@@ -60,18 +62,24 @@ const DashboardOrganization = () => {
 
                 <br></br>
 
-                <div className="card">
-                    <Router>
+                
+                <Router>
+                    <Switch>
                         <Route path={path} exact component={OrganizationsTable}/>
-                        <Route path={`${path}/form`} exact component={OrganizationForm}/>
-                    </Router>
-                </div>
+                        {/* <Route path={`${path}/form`} exact component={OrganizationForm}/> */}
+                        <Route path={`${path}/organization`} exact component={OrganizationSingle}/>
+                    </Switch>
+                </Router>
+                
 
                 <br></br>
 
-                <div className="card">
-                    
+                <div className="container-header">
+                    <h2>ADD Organization</h2>
+                    <p>Dashboard consist of necessary settings for admins and paticular management roles.</p>
                 </div>
+
+                <OrganizationForm />
             </div>
 
         </>

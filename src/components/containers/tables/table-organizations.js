@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import { Link, useRouteMatch } from 'react-router-dom';
 import organization_service from '../../../services/organization_service';
 import './table.css';
 
 const OrganizationsTable = ({data, category}) => {
-
+    const { path, url } = useRouteMatch();
     const [organizations, setOrganizations] = useState([]);
     const getOrganizations = async () => {
         setOrganizations(await organization_service.getOrganizations())
@@ -27,12 +28,12 @@ const OrganizationsTable = ({data, category}) => {
     }, []);
     
     return (
+        <div className="card">
         <div className="container-table">
             <div className="table-heading">
                 <h2>Organizations Stats</h2>
                 <p>Dashboard consist of necessary settings for admins and paticular management roles.</p>
-                <button className="btn btn-primary" onClick={()=>getOrganizations()}>VIEW</button>|
-                <button className="btn btn-warning" onClick={()=>getOrganizations("NOT APPROVED")}>DELETE</button>
+                <button className="btn btn-primary" onClick={()=>getOrganizations()}>VIEW</button>
             </div>
             <br></br>
             <div className="table-body">
@@ -56,7 +57,7 @@ const OrganizationsTable = ({data, category}) => {
                                 <td>{organization.address}</td>
                                 <td>{organization.incharge?organization.incharge:'Never Mentioned'}</td>
                                 <th scope="col"> 
-                                    <button className="btn btn-info">VIEW</button>|
+                                    <Link to={`${url}/organization?id=${organization.id}`}><button className="btn btn-info">VIEW</button></Link>|
                                     <button className="btn btn-danger" onClick={()=>deleteOrganization(organization.contactno)}>REMOVE</button>
                                 </th>
                             </tr>
@@ -68,6 +69,7 @@ const OrganizationsTable = ({data, category}) => {
                     </tbody>
                 </table>
             </div>
+        </div>
         </div>
     );
 }

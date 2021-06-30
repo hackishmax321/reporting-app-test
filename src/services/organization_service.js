@@ -51,8 +51,8 @@ class EmployeeService {
         alert("Organization Entered");
     }
 
-    async updateOrganization(id, employee){
-        await axios.patch(`${path}/${id}`, employee).then((response)=>{
+    async updateOrganization(id, org){
+        await axios.patch(`${path}/${id}`, org).then((response)=>{
         }).catch(handleErrors);
         alert("Selected Organization Updated");
     }
