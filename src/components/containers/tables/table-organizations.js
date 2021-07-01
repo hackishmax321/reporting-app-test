@@ -7,11 +7,16 @@ const OrganizationsTable = ({data, category}) => {
     const { path, url } = useRouteMatch();
     const [organizations, setOrganizations] = useState([]);
     const getOrganizations = async () => {
-        setOrganizations(await organization_service.getOrganizations())
+        setOrganizations(await organization_service.getOrganizations());
+        // await organization_service.getOrganizations().then((org)=>{
+
+        // })
     }
 
     const deleteOrganization = async (id) => {
-        setOrganizations(await organization_service.getOrganization(id))
+        console.log("LAUNCH");
+        await organization_service.deleteOrganization(id)
+        // setOrganizations(await organization_service.getOrganization(id));
     }
 
     const updateOrganizationStatus = async (id, organization, status) => {
@@ -58,7 +63,14 @@ const OrganizationsTable = ({data, category}) => {
                                 <td>{organization.incharge?organization.incharge:'Never Mentioned'}</td>
                                 <th scope="col"> 
                                     <Link to={`${url}/organization?id=${organization.id}`}><button className="btn btn-info">VIEW</button></Link>|
-                                    <button className="btn btn-danger" onClick={()=>deleteOrganization(organization.contactno)}>REMOVE</button>
+                                    <button className="btn btn-danger" onClick=
+                                    {
+                                        ()=>{
+                                            deleteOrganization(organization.id);
+                                            setOrganizations(organizations.filter(item => item.id !== organization.id));
+                                        }
+                                    }
+                                    >REMOVE</button>
                                 </th>
                             </tr>
                                 )

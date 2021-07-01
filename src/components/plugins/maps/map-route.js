@@ -3,6 +3,7 @@ const {
   withScriptjs,
   withGoogleMap,
   GoogleMap,
+  Marker,
   DirectionsRenderer,
 } = require("react-google-maps");
 
@@ -40,6 +41,7 @@ export const MapWithADirectionsRenderer = compose(
     defaultCenter={new window.google.maps.LatLng(6.9271, 79.8612)}
   >
     {props.directions && <DirectionsRenderer directions={props.directions} />}
+    <Marker position={{ lat: 6.5854, lng: 79.9607}}/>
   </GoogleMap>
 );
 

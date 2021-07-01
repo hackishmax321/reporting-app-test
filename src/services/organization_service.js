@@ -58,6 +58,7 @@ class EmployeeService {
     }
 
     async deleteOrganization(id){
+        console.log("Ddeleted launch");
         await axios.delete(`${path}/${id}`).then((response)=>{
         }).catch(handleErrors);
         alert("Selected Organization Removed");

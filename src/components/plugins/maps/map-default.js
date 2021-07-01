@@ -1,48 +1,77 @@
-import React, { useState } from 'react';
-import { GoogleMap, Marker, withScriptjs, withGoogleMap, DirectionsRenderer } from "react-google-maps"
-// import SidePanel from './children/side-panel';
+import React, { useEffect, useState } from 'react';
+import { GoogleMap, Marker, withScriptjs, withGoogleMap, DirectionsRenderer, InfoWindow } from "react-google-maps"
+import issues_service from '../../../services/issues_service';
 import './maps.css';
 
 const Map = (props) => {
-
+    const [ issues, setIssues ] = useState(); 
     const [selectedMarker, setSelectedMarker] = useState(null);
-    const [directions, setDirectios] = useState(null);
+    // const [directions, setDirectios] = useState(null);
+    const loadIssues = async () => {
+      setIssues(await issues_service.getIssues());
+    }
 
-    const DirectionsService = new window.google.maps.DirectionsService();
+    const selectIssue = (issue) => {
+      setSelectedMarker(issue)
+    }
 
-      DirectionsService.route(
-        {
-          origin: new window.google.maps.LatLng(6.9271, 79.8612),
-          destination: new window.google.maps.LatLng(7.2906, 80.6337),
-          travelMode: window.google.maps.TravelMode.DRIVING
-        },
-        (result, status) => {
-          if (status === window.google.maps.DirectionsStatus.OK) {
-              setDirectios(result);
-            // this.setState({
-            //   directions: result
-            // });
-          } else {
-            console.error(`error fetching directions ${result}`);
-          }
-        }
-      );
+    useEffect(() => {
+      loadIssues();
+      return () => {
+        
+      }
+    }, [])
+
+    
 
     return (
         <GoogleMap
             defaultZoom={14}
-            defaultCenter={{ lat: 6.9271, lng: -87.6512600}}
+            defaultCenter={{ lat: 6.5854, lng: 79.9607}}
         >
-            {props.directions && <DirectionsRenderer directions={directions} />}
+          {
+            issues&&issues.length>0?issues.map((issue)=>
+            <Marker position={{ lat: issue.location.coordinates[0], lng: issue.location.coordinates[1]}}
+            onClick={()=>selectIssue(issue)}>
+            </Marker>
+            ):<></>
+          }
   
-            <Marker position={{ lat: 6.9271, lng: -87.6512600}}/>
-            {/* {
-                setSelectedMarker&&(
-                <infowindow position={{lat: 6.9271, lng: 79.8612}}>
-                    <h4>Location Pointer</h4>
-                </infowindow>
+            <Marker position={{ lat: 6.5854, lng: 79.9607}}/>
+            {
+                selectedMarker&&(
+                  <InfoWindow  position={{ lat: selectedMarker.location.coordinates[0], lng: selectedMarker.location.coordinates[1]}}
+                  onCloseClick={()=>{setSelectedMarker(null)}}>
+                    <div className="ct-infowindow">
+                      <p>{selectedMarker.status&&(selectedMarker.status.type)}</p>
+                      <h4>{selectedMarker.title}</h4>
+                      <div className="info-im">
+                        <img src={'#'} alt="location"/>
+                      </div>
+                      <p>{selectedMarker.description}</p>
+                      {
+                        selectedMarker.votescount&&(
+                          <div>
+                            <p><span>UPVOTES</span> - {selectedMarker.votescount.upvote}</p>
+                            <p><span>DOWNVOTES</span> - {selectedMarker.votescount.downvote}</p>
+                          </div>
+                        )
+                      }
+                      {
+                        selectedMarker.organization&&(
+                          <p><span>RESPONSIBILITY of </span> {selectedMarker.organization.name}</p>
+                        )
+                      }
+                      <div className="info-user">
+                        <div className="user-bubble"></div>
+                        <div><span>{selectedMarker.createdUser}</span></div>
+                      </div>
+                      
+                      
+                    </div>
+                  </InfoWindow>
                 )
-            } */}
+            }
             
         </GoogleMap>
     );

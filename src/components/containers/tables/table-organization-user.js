@@ -9,9 +9,14 @@ const OrganizationsUserTable = (props) => {
     const [officials, setOfficials] = useState([]);
     const [approved, setApproved] = useState([]);
     const [type, setType] = useState("ASSIGNED");
+
     const getOfficials = async () => {
         setOfficials(await officials_service.getOfficials());
-        console.log(officials);
+        // await officials_service.getOfficials().then((users)=>{
+        //     users.forEach((user)=>{
+
+        //     })
+        // });
         // setOfficials(await officials_service.getOfficials());
     }
     const getAssigned = async () => {
