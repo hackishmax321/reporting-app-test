@@ -40,6 +40,9 @@ const OrganizationForm = () => {
         var organization = new Organization(name, info, address, incharge, contact, selected);
         organization_service.addOrganization(organization);
     }
+
+    
+
     useEffect(() => {
         loadCategories();
         return () => {

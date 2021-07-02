@@ -37,16 +37,16 @@ const Map = (props) => {
             ):<></>
           }
   
-            <Marker position={{ lat: 6.5854, lng: 79.9607}}/>
+            {/* <Marker position={{ lat: 6.5854, lng: 79.9607}}/> */}
             {
                 selectedMarker&&(
                   <InfoWindow  position={{ lat: selectedMarker.location.coordinates[0], lng: selectedMarker.location.coordinates[1]}}
                   onCloseClick={()=>{setSelectedMarker(null)}}>
                     <div className="ct-infowindow">
-                      <p>{selectedMarker.status&&(selectedMarker.status.type)}</p>
+                      <p className="highlight">{selectedMarker.status&&(selectedMarker.status.type)}</p>
                       <h4>{selectedMarker.title}</h4>
                       <div className="info-im">
-                        <img src={'#'} alt="location"/>
+                        {/* <img src={'assets/resources/map.png'} alt="location"/> */}
                       </div>
                       <p>{selectedMarker.description}</p>
                       {
