@@ -48,7 +48,7 @@ const Map = (props) => {
                       <div className="info-im">
                         {/* <img src={'assets/resources/map.png'} alt="location"/> */}
                       </div>
-                      <p>{selectedMarker.description}</p>
+                      <p className="text-left">{selectedMarker.description}</p>
                       {
                         selectedMarker.votescount&&(
                           <div>
