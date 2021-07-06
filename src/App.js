@@ -7,9 +7,8 @@ import Map from './routes/map';
 import { useState } from 'react';
 
 function App() {
-  
 
-
+  console.log = console.warn = console.error = () => {};
   return (
     <div className="App">
       <Router>
