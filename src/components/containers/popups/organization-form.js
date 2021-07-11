@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import './popup.css';
 import EventEmitter from '../../../utils/EventEmitter';
 import organization_service from '../../../services/organization_service';
 import Organization from '../../../models/Organization';
-import './popup.css';
 
 const OrganizationForm = () => {
     const [name, setName] = useState('');

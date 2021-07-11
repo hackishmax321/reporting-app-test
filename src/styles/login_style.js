@@ -2,6 +2,13 @@
 
 const styles = (theme) => {
     return ({
+        overrides: {
+            MuiTypography: {
+              body2: {
+                fontSize: [28, "!important"]
+              }
+            }
+          },    
     root: {
         height: '100vh',
     },

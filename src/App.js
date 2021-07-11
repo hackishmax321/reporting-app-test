@@ -1,10 +1,10 @@
 import './App.css';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Home from './routes/home';
+import SignUpSide from './routes/register';
 import NavBar from './components/containers/navbar/navbar';
-import Main from './routes/dashboard/main';
-import Map from './routes/map';
-import { useState } from 'react';
+import ResponsiveDrawer from './routes/dashboard/sidebar-material';
+import { theme } from './styles/temp_style';
 
 function App() {
 
@@ -16,8 +16,8 @@ function App() {
         <Switch>
           <Route path='/' exact component={Home}/>  
           <Route path='/home' exact component={Home}/>
-          <Route path='/map' exact component={Map}/>
-          <Route path='/dashboard' component={Main}/>
+          <Route path='/register' exact component={SignUpSide}/>
+          <Route path='/dashboard' component={ResponsiveDrawer}/>
         </Switch>
       </Router>
 

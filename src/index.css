@@ -87,7 +87,7 @@
 }
 
 * {
-  margin: auto;
+  /* margin: auto; */
   padding: 0;
   box-sizing: border-box;
   /* color: var(--primaryFontColor); */
@@ -95,6 +95,7 @@
 }
 
 body {
+  font-size: 16px;
   margin: 0;
   box-sizing: border-box;
   background-color: var(--primaryColor);
@@ -205,6 +206,17 @@ code {
 
 
 /* FOR QUICK USE */
+.container-dashboard {
+  position: relative;
+  padding: 5px 15px;
+  overflow:hidden;
+}
+
+.container-header {
+  text-align: left;
+  line-height: 10px;
+}
+
 .cards {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;

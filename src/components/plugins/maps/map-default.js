@@ -84,7 +84,7 @@ const MapDefault = () =>{
 
     return (
         <>
-            <div style={{width:"98.8vw", height:"90vh", overflow:'hidden'}}>
+            <div style={{width:"100%", height:"90vh", overflow:'hidden'}}>
                 <WrapMap
                     googleMapURL="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyDAsJYZSQ92_NQAz9kiSpW1XpyuCxRl_uI"
                     loadingElement={<div style={{ height: `100%` }} />}

@@ -16,10 +16,13 @@ const UsersTable = ({data, category}) => {
             setUsers(users);
             users.forEach((user)=>{
                 if(user.status==='APPROVED'){
+                    console.log("APPROVED");
                     setApprovedUsers(approvedUsers=>[...approvedUsers, user]);
                 } else if(user.status==='NOT APPROVED'){
+                    console.log("NOT APPROVED");
                     setNotApprovedUsers(notapprovedUsers=>[...notapprovedUsers, user]);
                 } else if(user.status==='BLOCKED'){
+                    console.log("BLOCKED");
                     setBlockedUsers(blockedUsers=>[...blockedUsers, user]);
                 }
             });

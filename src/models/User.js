@@ -1,9 +1,9 @@
 
 class User {
-    constructor(username, password, contact, nic, state){
+    constructor(username, password, contactno, nic, state){
         this.username = username;
         this.password = password;
-        this.contact = contact;
+        this.contactno = contactno;
         this.nic = nic;
         this.state = state || 'NOT APPROVED';
     }

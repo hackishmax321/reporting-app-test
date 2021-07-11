@@ -1,9 +1,20 @@
-import React, { useEffect, useState } from 'react';
-import './forms.css';
-import organization_service from '../../../../services/organization_service';
+import React, { useState } from 'react';
+import { Field, Formik, Form, FormikConfig, FormikValues } from 'formik';
+import { makeStyles } from '@material-ui/core/styles';
+import { Card, CardContent, FormControl, InputLabel, OutlinedInput, Button, Box, MenuItem, Select, FormHelperText, Divider } from '@material-ui/core';
+import { useForm, Controller } from 'react-hook-form';
 import Organization from '../../../../models/Organization';
+import organization_service from '../../../../services/organization_service';
 
-const OrganizationForm = () => {
+const useStyles = makeStyles((theme) => ({
+    root: {
+      '& > *': {
+        margin: theme.spacing(1),
+      },
+    },
+}));
+
+export default function OrganizationMultiForm(){
 
     const [name, setName] = useState('');
     const [address, setAddress] = useState('');
@@ -15,102 +26,135 @@ const OrganizationForm = () => {
 
     const [categories, setCategories] = useState([]);
 
-    const loadCategories = () => {
-        setCategories([{catid: "60c7c4fb2335833fac709744", name: "Social"}]);
-    }
+    const {register, handleSubmit} = useForm();
 
-    const organizationSubmit = () => {
-        console.log("category - "+category);
-        // Select Category
-        var selected = "";
-        categories.forEach((cat)=> {
-            if(cat.catid===category){
-                console.log(cat);
-                selected = cat;
-                
-            }
-        });
+    const classes = useStyles();
 
-        if(selected===""){
-            selected = {catid: "60c7c4fb2335833fac709744", name: "Social"};
-        }
-
-        // var categoryex = {catid: "60c7c4fb2335833fac709744", name: "Social"};
-        console.log(JSON.parse(JSON.stringify(category)));
-        var organization = new Organization(name, info, address, incharge, contact, selected);
+    const onOrganizationSubmit = () => {
+        var organization = new Organization(name, info, address, incharge, contact, category);
         organization_service.addOrganization(organization);
     }
 
-    
-
-    useEffect(() => {
-        loadCategories();
-        return () => {
-        }
-    }, [])
-
-    return (
-        <div className="card">
-        <div className="form-basic">
-            
-                <div class="form-group">
-                    <label for="name">Organization Name</label>
-                    <input type="text" class="form-control" id="name" placeholder="eg: RDA South"
-                    onChange={(event)=>setName(event.target.value)}/>
-                </div>
-                <div class="form-group">
-                    <label for="address">Address</label>
-                    <input type="text" class="form-control" id="address" placeholder="eg: 5B, Colombo 5, Colombo"
-                    onChange={(event)=>setAddress(event.target.value)}/>
-                </div>
-                <div class="form-group">
-                    <label for="info">Organization Description</label>
-                    <textarea class="form-control" id="info" rows="5"
-                    onChange={(event)=>setInfo(event.target.value)}></textarea>
-                </div>
-                <div class="form-row align-items-center">
-                    <div class="col-auto">
-                    <label class="sr-only" for="contact">Contact No.</label>
-                    <input type="text" class="form-control mb-2" id="contatct" placeholder="Contact Number"
-                    onChange={(event)=>setContact(event.target.value)}/>
-                    </div>
-                    <div class="col-auto">
-                    <button  class="btn btn-primary mb-2">Add</button>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="incharge">Inharge</label>
-                    <input type="email" class="form-control" id="incahrge" placeholder="Select from Users"
-                    onChange={(event)=>setIncharge(event.target.value)}/>
-                </div>
-                <div class="form-group">
-                    <label for="category">Organization Category</label>
-                    <select class="form-control" id="category"
-                    onChange={(event)=>setCategory(event.target.value)}>
-                    {
-                        categories&&categories.length>0?categories.map((cat)=><option value={cat.catid}>{cat.name}</option>)
-                        :<></>
-                    }
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="parent">Parent Organization</label>
-                    <select class="form-control" id="parent"
-                    onChange={(event)=>setParent(event.target.value)}>
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                    </select>
-                </div>
-                <button type="submit" class="btn btn-primary" onClick={organizationSubmit}>Create Organization</button>
-                
-            
-        
-        </div>
-        </div>
+    return(
+        <Card>
+            <CardContent>
+                        <div label="Initial Details">
+                        <form className={classes.root} noValidate autoComplete="off" onSubmit={(e)=>{e.preventDefault(); onOrganizationSubmit()}}>
+                            <h4>Initial Details</h4>
+                            <Box paddingBottom={2}>
+                            <FormControl fullWidth variant="outlined">
+                                <InputLabel htmlFor="name">Organization Name</InputLabel>
+                                <OutlinedInput  id="name" value={name}  label="Name" name="name" 
+                                onChange={(e)=>setName(e.target.value)}/>
+                            </FormControl>
+                            </Box>
+                            <Box paddingBottom={2}>
+                            <FormControl fullWidth variant="outlined">
+                                <InputLabel htmlFor="info">Information</InputLabel>
+                                <OutlinedInput  id="info" value={info}  label="Info" name="info"
+                                onChange={(e)=>setInfo(e.target.value)}/>
+                            </FormControl>
+                            </Box>
+                            <Box paddingBottom={2}>
+                            <FormControl fullWidth variant="outlined">
+                                <InputLabel htmlFor="address">Address</InputLabel>
+                                <OutlinedInput  id="address" value={address}  label="Address" name="address" 
+                                onChange={(e)=>setAddress(e.target.value)}/>
+                            </FormControl>
+                            </Box>
+                            <Box paddingBottom={2}>
+                            <FormControl fullWidth variant="outlined">
+                                <InputLabel htmlFor="contact">Contact</InputLabel>
+                                <OutlinedInput  id="contact" value={contact}  label="Contact" name="contact"
+                                onChange={(e)=>{setContact(e.target.value); console.log(e.target.value)}}/>
+                            </FormControl>
+                            </Box>
+                            {/* <Box paddingBottom={2}>
+                            <FormControl fullWidth variant="outlined">
+                                <InputLabel htmlFor="category">Category</InputLabel>
+                                <OutlinedInput  id="category" value={category}  label="Category" name="category"
+                                onChange={(e)=>setCategory(e.target.value)}/>
+                            </FormControl>
+                            </Box> */}
+                            <Box paddingBottom={2}>
+                            <FormControl fullWidth variant="outlined" className={classes.formControl}>
+                                <InputLabel id="category-lb">Category</InputLabel>
+                                <Select
+                                labelId="category-lb"
+                                id="category"
+                                value={category}
+                                onChange={(e)=>setCategory(e.target.value)}
+                                label="Category"
+                                >
+                                <MenuItem value="">
+                                    <em>None</em>
+                                </MenuItem>
+                                <MenuItem value={"Social Health"}>Social Health</MenuItem>
+                                <MenuItem value={"Road Construction"}>Road Construction</MenuItem>
+                                <MenuItem value={"Other"}>Other</MenuItem>
+                                </Select>
+                            </FormControl>
+                            </Box>
+                            <Box paddingBottom={2}>
+                            <FormControl fullWidth variant="outlined">
+                                <InputLabel htmlFor="incharge">Incharge</InputLabel>
+                                <OutlinedInput  id="incharge" value={incharge}  label="Incharge" name="incharge"
+                                onChange={(e)=>setIncharge(e.target.value)}/>
+                            </FormControl>
+                            </Box>
+                            <Box paddingBottom={2}>
+                            <FormControl fullWidth variant="outlined">
+                                <InputLabel htmlFor="parent">Parent</InputLabel>
+                                <OutlinedInput  id="parent" value={parent}  label="Parent" name="parent" 
+                                onChange={(e)=>setParent(e.target.value)}/>
+                            </FormControl>
+                            </Box>
+                            <Divider/>
+                            <Button variant="contained" color="primary" type="submit">SUBMIT</Button>
+                        </form>
+                        </div>
+                        
+                        
+            </CardContent>
+        </Card>
     );
 }
 
-export default OrganizationForm;
+// export function FormMultiSteps({children, ...props}){
+//     const childrenArray = React.Children.toArray(children);
+//     var [step, setStep] = useState(0);
+//     const current = childrenArray[step];
+
+//     const checkLast = () => {
+//         return step === childrenArray.length-1;
+//     }
+
+//     const OrganizationSubmit = () => {
+//         console.log("Values -")
+//     }
+
+//     return (
+//         <Formik {...props} onSubmit={async (values, helpers)=>{
+//             console.log("Submit Launched!");
+//             if(checkLast()){
+//                 await props.onSubmit(values, helpers);
+//             } else {
+//                 setStep(step=>step+1);
+//             }
+//         }}>
+//             <Form autoComplete="off">
+//                 {/* <Stepper alternativeLabel activeStep={step}>
+//                     {childrenArray.map((label) => (
+//                     <Step key={label}>
+//                         <StepLabel>{label}</StepLabel>
+//                     </Step>
+//                     ))}
+//                 </Stepper> */}
+//                 {current}
+//                 {step>0?<Button variant="contained" color="primary" margin={2} onClick={()=>setStep(step=>step-1)}>BACK</Button>:null}
+//                 {step===1?<Button variant="contained" color="primary" type="submit">SUBMIT</Button>:<Button variant="contained" color="primary" onClick={()=>setStep(step=>step+1)}>NEXT</Button>}
+                
+//             </Form>
+//         </Formik>
+//     )
+// }

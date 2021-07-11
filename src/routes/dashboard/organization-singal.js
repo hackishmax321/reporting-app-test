@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import queryString from 'query-string'
-import organization_service from '../../../services/organization_service';
-import OrganizationsUserTable from '../tables/table-organization-user';
+import React, {useEffect, useState} from 'react';
+import queryString from 'query-string';
+import organization_service from '../../services/organization_service';
+import OrganizationsUserTable from '../../components/containers/tables/table-organization-user';
 
-const OrganizationSingle = () => {
+
+const SingleOrganization = () => {
     const {id} = queryString.parse(window.location.search);
     const [selected, setSelected] = useState(null);
     const loadResource = async () => {
@@ -53,4 +54,4 @@ const OrganizationSingle = () => {
     );
 }
 
-export default OrganizationSingle;
+export default SingleOrganization;
