@@ -1,18 +1,20 @@
 import React from 'react';
+import { ArrowDownward, ArrowUpward } from '@material-ui/icons';
 import './table.css';
+import CustomButton from '../main/buttons/button';
+
 
 const UserTable = ({data}) => {
     return (
         <div className="container-table">
-            <div className="table-heading">
-                <h2>Personal Stats</h2>
-                <p>Dashboard consist of necessary settings for admins and paticular management roles.</p>
+            <div className="ct-table-heading">
+            <CustomButton text={"CREATE"}/>
             </div>
             <div className="table-body">
-                <table class="table">
-                    <thead class="thead-dark">
+                <table class="table table-striped table-hover">
+                    <thead class="thead-custom">
                         <tr>
-                        <th scope="col">#</th>
+                        <th scope="col"><ArrowDownward/><ArrowUpward/></th>
                         <th scope="col">First</th>
                         <th scope="col">Last</th>
                         <th scope="col">Handle</th>

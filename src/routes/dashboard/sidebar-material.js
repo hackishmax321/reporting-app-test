@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -16,13 +16,14 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
 import MenuIcon from '@material-ui/icons/Menu';
+import { ArrowBack} from '@material-ui/icons';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, useTheme, ThemeProvider, createTheme } from '@material-ui/core/styles';
-import { Route, Switch, NavLink, Link, useRouteMatch } from 'react-router-dom';
+import { Route, Switch, NavLink, Link, useRouteMatch, useHistory } from 'react-router-dom';
 import Users from './users';
 import Organizations from './organizations';
 import Main from './main';
@@ -112,6 +113,11 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 
+  backButton: {
+    marginRight: theme.spacing(4),
+    
+  },
+
   sectionDesktop: {
     display: 'none',
     [theme.breakpoints.up('md')]: {
@@ -141,13 +147,14 @@ const useStyles = makeStyles((theme) => ({
 
 function ResponsiveDrawer(props) {
   const {url, path} = useRouteMatch();
+  const history = useHistory();
   const { window } = props;
   const classes = useStyles();
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-
+  const [currentTopic, setTopic] = useState('REPORTING APP');
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
@@ -196,7 +203,7 @@ function ResponsiveDrawer(props) {
       <Divider />
       <List>
         <Link to={url}>
-        <ListItem button key={'BRIEF'}>
+        <ListItem button key={'BRIEF'} onClick={()=>setTopic('INTRODUCTION')}>
             <ListItemIcon><InboxIcon /></ListItemIcon>
             <Typography component="h5" variant="h5">
                         INTRODUCTION
@@ -204,7 +211,7 @@ function ResponsiveDrawer(props) {
         </ListItem>
         </Link>
         <Link to={`${url}/organizations`}>
-        <ListItem button key={'ORGANIZATIONS'}>
+        <ListItem button key={'ORGANIZATIONS'} onClick={()=>setTopic('ORGANIZATIONS')}>
             <ListItemIcon><InboxIcon /></ListItemIcon>
             <Typography component="h1" variant="h5">
                         ORGANIZATIONS
@@ -212,7 +219,7 @@ function ResponsiveDrawer(props) {
         </ListItem>
         </Link>
         <Link to={`${url}/users`}>
-        <ListItem button key={'USERS'}>
+        <ListItem button key={'USERS'} onClick={()=>setTopic('USERS')}>
             <ListItemIcon><InboxIcon /></ListItemIcon>
             <Typography component="h1" variant="h5">
                         USERS
@@ -250,7 +257,7 @@ function ResponsiveDrawer(props) {
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <AppBar position="fixed" className={classes.appBar} style={{ background: 'linear-gradient(45deg, #74b9ff 30%, #55efc4 90%)'}}>
+      <AppBar position="fixed" className={classes.appBar} style={{ background: '#30336b'}}>
         <Toolbar>
           <IconButton
             color="inherit"
@@ -261,8 +268,17 @@ function ResponsiveDrawer(props) {
           >
             <MenuIcon />
           </IconButton>
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            edge="start"
+            onClick={()=>{history.goBack(); setTopic("REPORTING APP")}}
+            className={classes.backButton}
+          >
+            <ArrowBack color="secondary" style={{ fontSize: 25 }}/>
+          </IconButton>
           <Typography variant="h5" noWrap style={{ color: "white", fontWeight: "500"}}>
-            REPORTING DASHBOARD
+           { currentTopic }
           </Typography>
 
           <div className={classes.grow} />

@@ -36,21 +36,20 @@ export default function OrganizationMultiForm(){
     }
 
     return(
-        <Card>
-            <CardContent>
+        
                         <div label="Initial Details">
                         <form className={classes.root} noValidate autoComplete="off" onSubmit={(e)=>{e.preventDefault(); onOrganizationSubmit()}}>
-                            <h4>Initial Details</h4>
+                            <h4>Submit Organization Information</h4>
                             <Box paddingBottom={2}>
                             <FormControl fullWidth variant="outlined">
-                                <InputLabel htmlFor="name">Organization Name</InputLabel>
+                                <InputLabel htmlFor="name">Name</InputLabel>
                                 <OutlinedInput  id="name" value={name}  label="Name" name="name" 
                                 onChange={(e)=>setName(e.target.value)}/>
                             </FormControl>
                             </Box>
                             <Box paddingBottom={2}>
                             <FormControl fullWidth variant="outlined">
-                                <InputLabel htmlFor="info">Information</InputLabel>
+                                <InputLabel htmlFor="info">Details</InputLabel>
                                 <OutlinedInput  id="info" value={info}  label="Info" name="info"
                                 onChange={(e)=>setInfo(e.target.value)}/>
                             </FormControl>
@@ -78,7 +77,7 @@ export default function OrganizationMultiForm(){
                             </Box> */}
                             <Box paddingBottom={2}>
                             <FormControl fullWidth variant="outlined" className={classes.formControl}>
-                                <InputLabel id="category-lb">Category</InputLabel>
+                                <InputLabel id="category-lb">Departments</InputLabel>
                                 <Select
                                 labelId="category-lb"
                                 id="category"
@@ -115,8 +114,7 @@ export default function OrganizationMultiForm(){
                         </div>
                         
                         
-            </CardContent>
-        </Card>
+            
     );
 }
 

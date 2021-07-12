@@ -243,3 +243,13 @@ code {
   width: 100%;
   padding: 20px 10px;
 }
+
+.float-right {
+  position: relative;
+  float: right;
+  margin-right: 5px;
+}
+
+.icon {
+  font-size: 1.7rem;
+}

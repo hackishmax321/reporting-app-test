@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Switch, Route, useRouteMatch } from 'react-router-dom';
-import UsersTable from '../../components/containers/tables/table-users';
+import UserTable from '../../components/containers/tables/table-user';
 import Chips from '../../components/containers/chips/chips';
 
 function Main(){
@@ -27,7 +27,7 @@ function Main(){
                 <br></br>
 
                 <div className="card">
-                    <UsersTable/>
+                    <UserTable />
                 </div>
 
                 <br></br>

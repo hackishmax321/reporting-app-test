@@ -1,8 +1,10 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
+import { Add } from '@material-ui/icons';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
+import CustomButton from '../buttons/button';
 import OrganizationMultiForm from './organization-form';
 
 const useStyles = makeStyles((theme) => ({
@@ -34,16 +36,7 @@ export default function OrganizationModalDialog() {
 
   return (
     <div>
-      
-      <div className="card">
-        <i class="fas fa-envelope-open-text"></i>
-                        
-        <div className="card-content">
-            <h4>Add Organization</h4>
-            <p>Card consist of necessary options in a inateractive manner.</p>
-            <button className="btn btn-primary" onClick={handleOpen}>ADD</button>
-        </div>
-        </div>
+      <CustomButton className="btn btn-primary float-right" text={'ADD ORGANIZATION'} icon={(<Add />)} color="success" onClick={handleOpen}></CustomButton>
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
@@ -62,6 +55,7 @@ export default function OrganizationModalDialog() {
           </div>
         </Fade>
       </Modal>
+      
     </div>
   );
 }
