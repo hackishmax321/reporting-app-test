@@ -22,78 +22,85 @@ import { Delete, Update } from '@material-ui/icons';
 
 const useStyles = makeStyles({
   container: {
-    maxHeight: '87vh'
+    maxHeight: '87vh',
+
   },
 
-  table: {
-    minWidth: 650,
+  root: {
+    width: '100%',
+
+    overflowX: 'auto',
   },
+  table: {
+    minWidth: 700
+  },
+
 });
 
 const useStyles1 = makeStyles((theme) => ({
-    root: {
-      flexShrink: 0,
-      marginLeft: theme.spacing(2.5),
-    },
+  root: {
+    flexShrink: 0,
+    marginLeft: theme.spacing(2.5),
+  },
 }));
 
 function TablePaginationActions(props) {
-    const classes = useStyles1();
-    const theme = useTheme();
-    const { count, page, rowsPerPage, onPageChange } = props;
-  
-    const handleFirstPageButtonClick = (event) => {
-      onPageChange(event, 0);
-    };
-  
-    const handleBackButtonClick = (event) => {
-      onPageChange(event, page - 1);
-    };
-  
-    const handleNextButtonClick = (event) => {
-      onPageChange(event, page + 1);
-    };
-  
-    const handleLastPageButtonClick = (event) => {
-      onPageChange(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
-    };
-  
-    return (
-      <div className={classes.root}>
-        <IconButton
-          onClick={handleFirstPageButtonClick}
-          disabled={page === 0}
-          aria-label="first page"
-        >
-          {theme.direction === 'rtl' ? <LastPageIcon /> : <FirstPageIcon />}
-        </IconButton>
-        <IconButton onClick={handleBackButtonClick} disabled={page === 0} aria-label="previous page">
-          {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
-        </IconButton>
-        <IconButton
-          onClick={handleNextButtonClick}
-          disabled={page >= Math.ceil(count / rowsPerPage) - 1}
-          aria-label="next page"
-        >
-          {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
-        </IconButton>
-        <IconButton
-          onClick={handleLastPageButtonClick}
-          disabled={page >= Math.ceil(count / rowsPerPage) - 1}
-          aria-label="last page"
-        >
-          {theme.direction === 'rtl' ? <FirstPageIcon /> : <LastPageIcon />}
-        </IconButton>
-      </div>
-    );
-  }
-  
-  TablePaginationActions.propTypes = {
-    count: PropTypes.number.isRequired,
-    onPageChange: PropTypes.func.isRequired,
-    page: PropTypes.number.isRequired,
-    rowsPerPage: PropTypes.number.isRequired,
+  const classes = useStyles1();
+  const theme = useTheme();
+  const { count, page, rowsPerPage, onPageChange } = props;
+
+  const handleFirstPageButtonClick = (event) => {
+    onPageChange(event, 0);
   };
+
+  const handleBackButtonClick = (event) => {
+    onPageChange(event, page - 1);
+  };
+
+  const handleNextButtonClick = (event) => {
+    onPageChange(event, page + 1);
+  };
+
+  const handleLastPageButtonClick = (event) => {
+    onPageChange(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
+  };
+
+  return (
+    <div className={classes.root}>
+      <IconButton
+        onClick={handleFirstPageButtonClick}
+        disabled={page === 0}
+        aria-label="first page"
+      >
+        {theme.direction === 'rtl' ? <LastPageIcon /> : <FirstPageIcon />}
+      </IconButton>
+      <IconButton onClick={handleBackButtonClick} disabled={page === 0} aria-label="previous page">
+        {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
+      </IconButton>
+      <IconButton
+        onClick={handleNextButtonClick}
+        disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+        aria-label="next page"
+      >
+        {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
+      </IconButton>
+      <IconButton
+        onClick={handleLastPageButtonClick}
+        disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+        aria-label="last page"
+      >
+        {theme.direction === 'rtl' ? <FirstPageIcon /> : <LastPageIcon />}
+      </IconButton>
+    </div>
+  );
+}
+
+TablePaginationActions.propTypes = {
+  count: PropTypes.number.isRequired,
+  onPageChange: PropTypes.func.isRequired,
+  page: PropTypes.number.isRequired,
+  rowsPerPage: PropTypes.number.isRequired,
+};
 
 export default function DepartmentTable() {
   const classes = useStyles();
@@ -113,21 +120,21 @@ export default function DepartmentTable() {
   };
 
   const getData = async () => {
-      setRows(await organization_service.getOrganizations())
+    setRows(await organization_service.getOrganizations())
   }
 
   useEffect(() => {
-      getData();
-      return () => {
-         
-      }
+    getData();
+    return () => {
+
+    }
   }, [])
 
   return (
     <TableContainer component={Paper} className={classes.container}>
-        <div className="ct-table-heading">
-            <OrganizationModalDialog/>
-        </div>
+      <div className="ct-table-heading">
+        <OrganizationModalDialog />
+      </div>
       <Table className={classes.table} aria-label="simple table">
         <TableHead>
           <TableRow>
@@ -139,7 +146,7 @@ export default function DepartmentTable() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows&&rows.map((row) => (
+          {rows && rows.map((row) => (
             <TableRow key={row.id}>
               <TableCell component="th" scope="row">
                 {row.name}
@@ -149,14 +156,14 @@ export default function DepartmentTable() {
               <TableCell align="right">{row.incharge}</TableCell>
               <TableCell align="right">
 
-                <CustomButton className="btn btn-primary float-right" text={'VIEW'} icon={null} color="primary" onClick={()=>null}></CustomButton>
-                <CustomButton className="btn btn-primary float-right" text={'DELETE'} icon={null} color="danger" onClick={()=>null}></CustomButton>
-                  
+                <CustomButton className="btn btn-primary float-right" text={'VIEW'} icon={null} color="primary" onClick={() => null}></CustomButton>
+                <CustomButton className="btn btn-primary float-right" text={'DELETE'} icon={null} color="danger" onClick={() => null}></CustomButton>
+
               </TableCell>
             </TableRow>
           ))}
 
-        {emptyRows > 0 && (
+          {emptyRows > 0 && (
             <TableRow style={{ height: 53 * emptyRows }}>
               <TableCell colSpan={6} />
             </TableRow>
