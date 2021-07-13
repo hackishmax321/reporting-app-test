@@ -11,21 +11,9 @@ var officials_list = [];
 
 class EmployeeService {
 
-    async getUserByUsername(username, password){
-        await axios.get(`/users/${username}`).then((response)=>{
-            if(password == response.data.password){
-                console.log("LOGIN COMPLETED!");
-
-                // Load Session
-
-                // EventEmitter.emit("loginCompleted", {logged: true});
-
-                return true
-
-            } else {
-                console.log("LOGIN FAILED!");
-                return false;
-            }
+    async getUserByContactNo(contactno, pass){
+        await axios.post("https://reporting-app-clab-test.herokuapp.com/v1/auth/login", {contactno: contactno, password: pass}).then((response)=>{
+            console.log(response);
         }).catch(handleErrors);
 
     }
@@ -94,7 +82,7 @@ class EmployeeService {
 
     async addOfficial(official){
 
-        await axios.post(path, official).then((response)=>{
+        await axios.post("https://reporting-app-clab-test.herokuapp.com/v1/auth/register", official).then((response)=>{
 
         }).catch(handleErrors);
         console.log("User Entered!");

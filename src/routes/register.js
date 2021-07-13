@@ -16,6 +16,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import styles from '../styles/login_style.js';
+import User from '../models/User';
 import employee_service from '../services/officials_service';
 
 function Copyright() {
@@ -32,15 +33,26 @@ function Copyright() {
 }
 
 
-export default function SignInSide() {
+export default function SignUpSide() {
     const useStyles =  makeStyles(theme => (styles(theme)));
     const classes = useStyles();
 
-    var [username, setUsername] = useState();
-    var [password, setPassword] = useState();
+    const [name, setName] = useState('');
+    const [contact, setContact] = useState(''); 
+    const [nic, setNic] = useState('');
+    const [password, setPassword] = useState('');
+    const [cpassword, setCPassword] = useState('');
 
-    const onLoginSubmit = async () => {
-        await employee_service.getUserByContactNo(username, password)
+    const onUserSubmit = () => {
+        if(password===cpassword){
+            var user = new User(name, password, contact, nic, "NOT APPROVED");
+            console.log(name, password, contact, nic, "NOT APPROVED");
+            employee_service.addOfficial(user);
+        } else {
+
+        }
+        
+
     }
 
     return (
@@ -53,9 +65,9 @@ export default function SignInSide() {
                         <LockOutlinedIcon />
                     </Avatar>
                     <Typography component="h1" variant="h5">
-                        Sign in
+                        Sign Up
                     </Typography>
-                    <form className={classes.form} noValidate onSubmit={(e)=>{e.preventDefault(); onLoginSubmit()}}>
+                    <form className={classes.form} onSubmit={(e)=>{e.preventDefault(); onUserSubmit()}} noValidate>
                         <TextField
                             variant="outlined"
                             margin="normal"
@@ -66,6 +78,31 @@ export default function SignInSide() {
                             name="contact"
                             autoComplete="contact"
                             autoFocus
+                            onChange = {(e)=>setContact(e.target.value)}
+                        />
+                        <TextField
+                            variant="outlined"
+                            margin="normal"
+                            required
+                            fullWidth
+                            id="nic"
+                            label="Your NIC Number"
+                            name="nic"
+                            // autoComplete="email"
+                            autoFocus
+                            onChange = {(e)=>setNic(e.target.value)}
+                        />
+                        <TextField
+                            variant="outlined"
+                            margin="normal"
+                            required
+                            fullWidth
+                            id="name"
+                            label="Your Name"
+                            name="name"
+                            // autoComplete="username"
+                            autoFocus
+                            onChange = {(e)=>setName(e.target.value)}
                         />
                         <TextField
                             variant="outlined"
@@ -77,22 +114,30 @@ export default function SignInSide() {
                             type="password"
                             id="password"
                             autoComplete="current-password"
+                            onChange = {(e)=>setPassword(e.target.value)}
                         />
-                        <FormControlLabel
-                            control={<Checkbox value="remember" color="primary" />}
-                            label="Remember me"
+                        <TextField
+                            variant="outlined"
+                            margin="normal"
+                            required
+                            fullWidth
+                            name="cpassword"
+                            label="Confirm Password"
+                            type="password"
+                            id="cpassword"
+                            autoComplete="current-password"
+                            onChange = {(e)=>setCPassword(e.target.value)}
                         />
-                        <Link to="/dashboard">
-                            <Button
+                        
+                        <Button
                             type="submit"
                             fullWidth
                             variant="contained"
                             color="primary"
                             className={classes.submit}
                         >
-                            Sign In
+                            Sign Up
                         </Button>
-                        </Link>
                         <Grid container>
                             <Grid item xs>
                                 <Link href="#" variant="body2">
@@ -100,8 +145,8 @@ export default function SignInSide() {
                                 </Link>
                             </Grid>
                             <Grid item>
-                                <Link to="/register" variant="body2">
-                                    {"Don't have an account? Sign Up"}
+                                <Link to="/home" variant="body2">
+                                    {"Already have an Account?"}
                                 </Link>
                             </Grid>
                         </Grid>

@@ -8,35 +8,7 @@ const SideBar = ({showSideBar}) => {
 
     return (
         <div className={`sidebar ${sidebar?'sidebar-responsive':''}`}>
-            {/* <div className="sidebar-head">
-                <div className="title">
-                    <h4>Admin Panel</h4>
-                </div>
-            </div>
-            <div className="sidebar-body">
-                <div className="sidebar-link active">
-                    <i className="fa fa-home"></i>
-                    <a href="#E" >DASHBOARD</a>
-                </div>
-                <div className="sidebar-link">
-                    <i className="fa fa-home"></i>
-                    <a href="#E" >ORGANIZATIONS</a>
-                </div>
-                <div className="sidebar-link">
-                    <i className="fa fa-home"></i>
-                    <a href="#E" >USERS</a>
-                </div>
-                <div className="sidebar-link">
-                    <i className="fa fa-home"></i>
-                    <a href="#E" >SETTINGS</a>
-                </div>
-            </div>
-            <div className="sidebar-footer">
-                <div className="sidebar-icon">
-                    <i className="fa fa-times" id="sidebaricon" onClick={()=>setSidebar(!sidebar)}></i>
-                </div>
-                
-            </div> */}
+            
                 <div className="sidebar-brand">
                     {/* <h4 className="font-special">ADMIN PANNEL</h4> */}
                     {/* <p className="font-secondary">Following menu conclude of options that will available for Organization admins and super admins.</p> */}

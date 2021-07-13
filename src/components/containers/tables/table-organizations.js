@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useRouteMatch } from 'react-router-dom';
+import { ArrowDownward, ArrowUpward } from '@material-ui/icons';
 import organization_service from '../../../services/organization_service';
+import OrganizationModalDialog from '../main/forms/organization-popup';
 import './table.css';
 
 const OrganizationsTable = ({data, category}) => {
@@ -33,19 +35,17 @@ const OrganizationsTable = ({data, category}) => {
     }, []);
     
     return (
-        <div className="card">
         <div className="container-table">
-            <div className="table-heading">
-                <h2>Organizations Stats</h2>
-                <p>Dashboard consist of necessary settings for admins and paticular management roles.</p>
-                <button className="btn btn-primary" onClick={()=>getOrganizations()}>VIEW</button>
+            <div className="ct-table-heading">
+                <OrganizationModalDialog/>
             </div>
+            
             <br></br>
             <div className="table-body">
                 <table class="table">
-                    <thead class="thead-dark">
+                    <thead class="thead-custom">
                         <tr>
-                        <th scope="col">No.</th>
+                        <th scope="col">No. <ArrowDownward/><ArrowUpward/></th>
                         <th scope="col">Name</th>
                         <th scope="col">Address</th>
                         <th scope="col">Incharge</th>
@@ -81,7 +81,6 @@ const OrganizationsTable = ({data, category}) => {
                     </tbody>
                 </table>
             </div>
-        </div>
         </div>
     );
 }
