@@ -11,7 +11,21 @@ const theme1 = createMuiTheme({
   overrides: {
     MuiTableCell: {
       root: {
-      fontSize:'18px'
+      fontSize:'16px'
+      }
+    },
+    MuiTypography: {
+      body2: {
+        fontSize: 12
+      },
+      body1: {
+        fontSize: 15,
+        fontWeight: 500
+      } 
+    },
+    MuiSvgIcon: {
+      root: {
+        fontSize:24
       }
     }
   }

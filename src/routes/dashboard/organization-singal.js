@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import queryString from 'query-string';
 import organization_service from '../../services/organization_service';
-import OrganizationsUserTable from '../../components/containers/tables/table-organization-user';
+import OrganizationsUserTable from '../../components/containers/tables/table-mat-organization-users';
 
 
 const SingleOrganization = () => {
@@ -44,6 +44,7 @@ const SingleOrganization = () => {
                         
                     
             </div>
+            <br></br>
 
             {
                 selected?<OrganizationsUserTable organization={selected}/>:<></>

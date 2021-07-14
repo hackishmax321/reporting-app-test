@@ -94,7 +94,7 @@ export default function OrganizationMultiForm(){
                                 </Select>
                             </FormControl>
                             </Box>
-                            <Box paddingBottom={2}>
+                            {/* <Box paddingBottom={2}>
                             <FormControl fullWidth variant="outlined">
                                 <InputLabel htmlFor="incharge">Incharge</InputLabel>
                                 <OutlinedInput  id="incharge" value={incharge}  label="Incharge" name="incharge"
@@ -107,7 +107,7 @@ export default function OrganizationMultiForm(){
                                 <OutlinedInput  id="parent" value={parent}  label="Parent" name="parent" 
                                 onChange={(e)=>setParent(e.target.value)}/>
                             </FormControl>
-                            </Box>
+                            </Box> */}
                             <Divider/>
                             <Button variant="contained" color="primary" type="submit">SUBMIT</Button>
                         </form>

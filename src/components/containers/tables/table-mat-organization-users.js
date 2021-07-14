@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { useRouteMatch } from 'react-router-dom';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -15,32 +16,28 @@ import FirstPageIcon from '@material-ui/icons/FirstPage';
 import LastPageIcon from '@material-ui/icons/LastPage';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
+import officials_service from '../../../services/officials_service';
 import organization_service from '../../../services/organization_service';
 import CustomButton from '../main/buttons/button';
 import OrganizationModalDialog from '../main/forms/organization-popup';
 import { Delete, Update } from '@material-ui/icons';
 import Loadder from '../loadder/loadder';
+// import {} from 'react-loading'
+// import {} from ''
 
 const useStyles = makeStyles({
-  overrides: {
-    MuiTypography: {
-      paging: {
-        fontSize: [46, "!important"]
-      }
-    }
-  },
   container: {
-    maxHeight: '87vh',
+    // maxHeight: '87vh',
 
   },
 
   root: {
-    width: '100%',
+    // width: '100%',
 
-    overflowX: 'auto',
+    // overflowX: 'auto',
   },
   table: {
-    minWidth: 700
+    minWidth: 650,
   },
 
 });
@@ -110,13 +107,40 @@ TablePaginationActions.propTypes = {
   rowsPerPage: PropTypes.number.isRequired,
 };
 
-export default function SampleTable() {
-  const classes = useStyles();
-  var [rows, setRows] = useState([]);
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+export default function OrganizationUsersTable(props) {
+    const classes = useStyles();
+    const { path, url } = useRouteMatch();
+    const [officials, setOfficials] = useState([]);
+    const [approved, setApproved] = useState([]);
+    const [type, setType] = useState("ALL");
+    var [rows, setRows] = useState([]);
+    const [page, setPage] = React.useState(0);
+    const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
-  const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+    const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+
+    const getOfficials = async () => {
+        setOfficials(await officials_service.getOfficials());
+    }
+    const getAssigned = async () => {
+        setApproved(props.organization.officials);
+        console.log(props.organization.officials);
+        // setOfficials(await officials_service.getOfficials());
+    }
+
+    const assignOfficial = (id, user, organization) => {
+        organization.officials.push({contact:id, name: user});
+        organization_service.updateOrganization(organization.id, organization);
+    }
+
+    const rejectOfficial = (id, user, organization) => {
+        organization.officials.push({contact:id, name: user});
+        organization_service.updateOrganization(organization.id, organization);
+    }
+
+    const changeTable = (type) => {
+        setType(type);
+    }
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -132,7 +156,8 @@ export default function SampleTable() {
   }
 
   useEffect(() => {
-    getData();
+    getAssigned();
+    getOfficials();
     return () => {
 
     }
@@ -140,39 +165,66 @@ export default function SampleTable() {
 
   return (
     <TableContainer component={Paper} className={classes.container}>
-      <div className="ct-table-heading">
-        <OrganizationModalDialog />
+      <div className="filter-pack">
+        <CustomButton text={'APPROVED'} icon={null} color="success" onClick={()=>changeTable("ASSIGNED")}></CustomButton>
+        <CustomButton text={'ALL USERS'} icon={null} color="primary" onClick={()=>changeTable("ALL")}></CustomButton>
       </div>
       <Table className={classes.table} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell>Name of Department</TableCell>
-            <TableCell align="right">Category</TableCell>
-            <TableCell align="right">Address</TableCell>
-            <TableCell align="right">Incharge</TableCell>
+            <TableCell>Contact No.</TableCell>
+            <TableCell align="right">Name</TableCell>
+            <TableCell align="right">NIC No.</TableCell>
+            {/* <TableCell align="right">Incharge</TableCell> */}
             <TableCell align="right">Options</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows && rows.map((row) => (
-            <TableRow key={row.id}>
+            {type==="ASSIGNED"&&approved&&approved.length>0 && approved.map((row) => (
+            <TableRow key={row.contactno}>
               <TableCell component="th" scope="row">
-                {row.name}
+                {row.contact}
               </TableCell>
-              <TableCell align="right">{row.category}</TableCell>
-              <TableCell align="right">{row.address}</TableCell>
-              <TableCell align="right">{row.incharge}</TableCell>
+              <TableCell align="right">{row.name}</TableCell>
+              <TableCell align="right">{row.nic}</TableCell>
+              {/* <TableCell align="right">{row.nic}</TableCell> */}
+              <TableCell align="right">
+
+                <CustomButton text={'VIEW'} icon={null} color="primary" onClick={()=>null}></CustomButton>
+                <CustomButton text={'DELETE'} icon={null} color="danger" onClick={()=>console.log("REMOVE")}></CustomButton>
+
+              </TableCell>
+            </TableRow>
+          ))}
+
+            {type==="ALL"&&officials&&officials.length>0 && officials.map((row) => (
+            <TableRow key={row.contactno}>
+              {/* <TableCell component="th" scope="row">
+                {'1'}
+              </TableCell> */}
+              <TableCell align="left">{row.contactno}</TableCell>
+              <TableCell align="right">{row.username}</TableCell>
+              <TableCell align="right">{row.nic}</TableCell>
               <TableCell align="right">
 
                 <CustomButton className="btn btn-primary float-right" text={'VIEW'} icon={null} color="primary" onClick={() => null}></CustomButton>
-                <CustomButton className="btn btn-primary float-right" text={'DELETE'} icon={null} color="danger" onClick={() => null}></CustomButton>
+                <CustomButton className="btn btn-primary float-right" text={'ASSIGN'} icon={null} color="success" onClick={()=>assignOfficial(row.contactno, row.username, props.organization)}></CustomButton>
 
               </TableCell>
             </TableRow>
           ))}
 
           {
-            rows.length===0?<Loadder/>:null
+            officials.length===0?
+            <Loadder/>
+            // <LoadingOverlay
+            // // active={isActive}
+            // spinner
+            // text='Loading your content...'
+            // >
+            // <p>Some content or children or something.</p>
+            // </LoadingOverlay>
+            :null
           }
 
           {emptyRows > 0 && (
@@ -186,7 +238,7 @@ export default function SampleTable() {
             <TablePagination className={classes.paging}
               rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
               colSpan={3}
-              count={rows.length}
+              count={approved.length}
               rowsPerPage={rowsPerPage}
               page={page}
               SelectProps={{

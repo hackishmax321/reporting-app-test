@@ -5,7 +5,7 @@ const styles = (theme) => {
         overrides: {
             MuiTypography: {
               body2: {
-                fontSize: [28, "!important"]
+                fontSize: [26, "!important"]
               }
             }
           },    
