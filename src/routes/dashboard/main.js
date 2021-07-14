@@ -26,21 +26,6 @@ function Main(){
 
                 <br></br>
 
-                <div className="card">
-                    <UserTable />
-                </div>
-
-                <br></br>
-
-                <div className="card">
-                    <i class="fas fa-spinner font-special"></i>
-                        
-                    <div className="card-content">
-                        <h4>[SIMPLE TITLE]</h4>
-                        <p>Card consist of necessary options in a inateractive manner.</p>
-                    </div>
-                </div>
-
 
         </>
     );

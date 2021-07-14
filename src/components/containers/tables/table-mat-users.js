@@ -17,7 +17,6 @@ import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import officials_service from '../../../services/officials_service';
 import CustomButton from '../main/buttons/button';
-import OrganizationModalDialog from '../main/forms/organization-popup';
 import { Delete, Update } from '@material-ui/icons';
 import Loadder from '../loadder/loadder';
 
@@ -177,7 +176,7 @@ export default function UsersTable() {
         
       </div>
       <div className="ct-table-heading">
-        <OrganizationModalDialog />
+        
       </div>
       <Table className={classes.table} aria-label="simple table">
         <TableHead>
