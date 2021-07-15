@@ -37,11 +37,14 @@ const useStyles = makeStyles({
 
   root: {
     width: '100%',
+    display: 'flex',
 
     overflowX: 'auto',
   },
   table: {
-    minWidth: 700
+    width: '100%',
+    borderCollapse:'collapse',
+   
   },
 
 });
