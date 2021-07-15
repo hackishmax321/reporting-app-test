@@ -21,6 +21,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
 import MoreIcon from '@material-ui/icons/MoreVert';
+import { Details, House, VerifiedUser, Settings, DevicesOther } from '@material-ui/icons';
+import MapIcon from '@material-ui/icons/Map';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, useTheme, ThemeProvider, createTheme } from '@material-ui/core/styles';
 import { Route, Switch, NavLink, Link, useRouteMatch, useHistory } from 'react-router-dom';
@@ -28,7 +30,6 @@ import Users from './users';
 import Organizations from './organizations';
 import Main from './main';
 import Map from './map';
-import CustomButton from '../../components/containers/main/buttons/button';
 import './dashboard.css';
 
 const drawerWidth = 270;
@@ -204,50 +205,45 @@ function ResponsiveDrawer(props) {
       <List>
         <Link to={url}>
         <ListItem button key={'BRIEF'} onClick={()=>setTopic('INTRODUCTION')}>
-            <ListItemIcon><InboxIcon /></ListItemIcon>
-            <Typography component="h5" variant="h5">
-                        INTRODUCTION
-            </Typography>
+            <ListItemIcon><Details /></ListItemIcon>
+            <ListItemText primary={'Introduction'} />
         </ListItem>
         </Link>
         <Link to={`${url}/organizations`}>
         <ListItem button key={'ORGANIZATIONS'} onClick={()=>setTopic('ORGANIZATIONS')}>
-            <ListItemIcon><InboxIcon /></ListItemIcon>
-            <Typography component="h1" variant="h5">
-                        ORGANIZATIONS
-            </Typography>
+            <ListItemIcon><House /></ListItemIcon>
+            <ListItemText primary={'Organizations'} />
         </ListItem>
         </Link>
         <Link to={`${url}/users`}>
         <ListItem button key={'USERS'} onClick={()=>setTopic('USERS')}>
-            <ListItemIcon><InboxIcon /></ListItemIcon>
-            <Typography component="h1" variant="h5">
-                        USERS
-            </Typography>
+            <ListItemIcon><VerifiedUser /></ListItemIcon>
+            <ListItemText primary={'Users'} />
         </ListItem>
         </Link>
         <Link to={`${url}/map`}>
         <ListItem button key={'MAP'}>
-            <ListItemIcon><InboxIcon /></ListItemIcon>
-            <Typography component="h1" variant="h5">
-                        MAP
-            </Typography>
+            <ListItemIcon><MapIcon /></ListItemIcon>
+            <ListItemText primary={'Map'} />
         </ListItem>
         </Link>
       </List>
       <Divider />
       <List>
-        {['OTHER', 'SETTINGS'].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-            <Typography component="h1" variant="h5">
-                        {text}
-            </Typography>
+        <Link to={`${url}/other`}>
+          <ListItem button key={'OTHER'}>
+              <ListItemIcon><DevicesOther /></ListItemIcon>
+              <ListItemText primary={'Other'} />
           </ListItem>
-        ))}
+        </Link>
+        <Link to={`${url}/settings`}>
+          <ListItem button key={'SETTINGS'}>
+              <ListItemIcon><Settings /></ListItemIcon>
+              <ListItemText primary={'Settings'} />
+          </ListItem>
+        </Link>
       </List>
       <Divider />
-      <CustomButton text={'SETTINGS'}/>
     </div>
   );
 

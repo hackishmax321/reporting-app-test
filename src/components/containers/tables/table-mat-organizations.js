@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { Link, useRouteMatch } from 'react-router-dom';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -19,8 +20,16 @@ import organization_service from '../../../services/organization_service';
 import CustomButton from '../main/buttons/button';
 import OrganizationModalDialog from '../main/forms/organization-popup';
 import { Delete, Update } from '@material-ui/icons';
+import Loadder from '../loadder/loadder';
 
 const useStyles = makeStyles({
+  overrides: {
+    MuiTypography: {
+      paging: {
+        fontSize: [46, "!important"]
+      }
+    }
+  },
   container: {
     maxHeight: '87vh',
 
@@ -104,6 +113,7 @@ TablePaginationActions.propTypes = {
 };
 
 export default function DepartmentTable() {
+  const { path, url } = useRouteMatch();
   const classes = useStyles();
   var [rows, setRows] = useState([]);
   const [page, setPage] = React.useState(0);
@@ -157,12 +167,16 @@ export default function DepartmentTable() {
               <TableCell align="right">{row.incharge}</TableCell>
               <TableCell align="right">
 
-                <CustomButton className="btn btn-primary float-right" text={'VIEW'} icon={null} color="primary" onClick={() => null}></CustomButton>
-                <CustomButton className="btn btn-primary float-right" text={'DELETE'} icon={null} color="danger" onClick={() => null}></CustomButton>
+                <Link to={`${url}/organization?id=${row.id}`}><CustomButton text={'VIEW'} icon={null} color="primary" onClick={() => null}></CustomButton></Link>
+                <CustomButton text={'DELETE'} icon={null} color="danger" onClick={() => null}></CustomButton>
 
               </TableCell>
             </TableRow>
           ))}
+
+          {
+            rows.length===0?<Loadder/>:null
+          }
 
           {emptyRows > 0 && (
             <TableRow style={{ height: 53 * emptyRows }}>
@@ -172,7 +186,7 @@ export default function DepartmentTable() {
         </TableBody>
         <TableFooter>
           <TableRow>
-            <TablePagination
+            <TablePagination className={classes.paging}
               rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
               colSpan={3}
               count={rows.length}

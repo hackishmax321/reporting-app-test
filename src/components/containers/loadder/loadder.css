@@ -1,0 +1,25 @@
+.loadder{
+    position: relative;
+    
+}
+
+.loadder i{
+    font-size: 100px;
+    color: rgb(120, 120, 202);
+    margin: 0 auto;
+    position: relative;
+    top: 100px;
+    left: 100%;
+    /* transform: rotate(360deg); */
+    animation: mymove 2s infinite;
+}
+
+
+@keyframes mymove {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}

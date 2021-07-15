@@ -30,7 +30,7 @@ const useStyles = makeStyles(theme=>({
     height: 35,
     fontSize: '15px',
     padding: '0 10px',
-    margin: '2px 0'
+    margin: '2px'
   }),
 
   ctbutton: {
