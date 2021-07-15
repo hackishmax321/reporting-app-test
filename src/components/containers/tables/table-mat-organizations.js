@@ -28,6 +28,7 @@ const useStyles = makeStyles({
 
   root: {
     width: '100%',
+    display: 'flex',
 
     overflowX: 'auto',
   },
