@@ -42,7 +42,9 @@ const useStyles = makeStyles({
     overflowX: 'auto',
   },
   table: {
-    minWidth: 700
+    width: '100%',
+    borderCollapse:'collapse',
+   
   },
 
 });
