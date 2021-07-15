@@ -168,6 +168,7 @@ export default function UsersTable() {
     }, [])
 
   return (
+    <>
     <TableContainer component={Paper} className={classes.container}>
       <div className="filter-pack">
         <CustomButton text={'APPROVED'} icon={null} color="success" onClick={()=>setType('APPROVED')}></CustomButton>
@@ -182,24 +183,24 @@ export default function UsersTable() {
         <TableHead>
           <TableRow>
             <TableCell>No.</TableCell>
-            <TableCell align="right">Name</TableCell>
-            <TableCell align="right">NIC No.</TableCell>
-            <TableCell align="right">Status</TableCell>
-            <TableCell align="right">NIC Number</TableCell>
-            <TableCell align="right">Options</TableCell>
+            <TableCell align="left">Name</TableCell>
+            <TableCell align="left">NIC No.</TableCell>
+            <TableCell align="left">Status</TableCell>
+            <TableCell align="left">NIC Number</TableCell>
+            <TableCell align="left">Options</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-            {type==='NOT APPROVED'&&notapprovedUsers&&notapprovedUsers.length>0 && notapprovedUsers.map((row) => (
+            {type==='NOT APPROVED'&&notapprovedUsers&&notapprovedUsers.length>0 && notapprovedUsers.slice(page*rowsPerPage, page*rowsPerPage + rowsPerPage).map((row) => (
             <TableRow key={row.contactno}>
               <TableCell component="th" scope="row">
                 {row.contactno}
               </TableCell>
-              <TableCell align="right">{row.username}</TableCell>
-              <TableCell align="right">{row.nic}</TableCell>
-              <TableCell align="right">{row.status}</TableCell>
-              <TableCell align="right">{row.nic}</TableCell>
-              <TableCell align="right">
+              <TableCell align="left">{row.username}</TableCell>
+              <TableCell align="left">{row.nic}</TableCell>
+              <TableCell align="left">{row.status}</TableCell>
+              <TableCell align="left">{row.nic}</TableCell>
+              <TableCell align="left">
 
                 <CustomButton text={'APPROVE'} icon={null} color="success" onClick={
                                         ()=>{
@@ -218,16 +219,16 @@ export default function UsersTable() {
             </TableRow>
           ))}
 
-            {type==='APPROVED'&&approvedUsers&&approvedUsers.length>0 && approvedUsers.map((row) => (
+            {type==='APPROVED'&&approvedUsers&&approvedUsers.length>0 && approvedUsers.slice(page*rowsPerPage, page*rowsPerPage + rowsPerPage).map((row) => (
             <TableRow key={row.contactno}>
               <TableCell component="th" scope="row">
                 {row.contactno}
               </TableCell>
-              <TableCell align="right">{row.username}</TableCell>
-              <TableCell align="right">{row.nic}</TableCell>
-              <TableCell align="right">{row.status}</TableCell>
-              <TableCell align="right">{row.nic}</TableCell>
-              <TableCell align="right">
+              <TableCell align="left">{row.username}</TableCell>
+              <TableCell align="left">{row.nic}</TableCell>
+              <TableCell align="left">{row.status}</TableCell>
+              <TableCell align="left">{row.nic}</TableCell>
+              <TableCell align="left">
 
                 <CustomButton className="btn btn-primary float-right" text={'BLOCK'} icon={null} color="warning" onClick={
                                         ()=>{
@@ -246,16 +247,16 @@ export default function UsersTable() {
             </TableRow>
           ))}
 
-            {type==='DISABLE'&&blockedUsers&&blockedUsers.length>0 && blockedUsers.map((row) => (
+            {type==='DISABLE'&&blockedUsers&&blockedUsers.length>0 && blockedUsers.slice(page*rowsPerPage, page*rowsPerPage + rowsPerPage).map((row) => (
             <TableRow key={row.contactno}>
               <TableCell component="th" scope="row">
                 {row.contactno}
               </TableCell>
-              <TableCell align="right">{row.username}</TableCell>
-              <TableCell align="right">{row.nic}</TableCell>
-              <TableCell align="right">{row.status}</TableCell>
-              <TableCell align="right">{row.nic}</TableCell>
-              <TableCell align="right">
+              <TableCell align="left">{row.username}</TableCell>
+              <TableCell align="left">{row.nic}</TableCell>
+              <TableCell align="left">{row.status}</TableCell>
+              <TableCell align="left">{row.nic}</TableCell>
+              <TableCell align="left">
 
                 <CustomButton className="btn btn-primary float-right" text={'UNBLOCK'} icon={null} color="secondary"onClick={
                                         ()=>{
@@ -274,10 +275,6 @@ export default function UsersTable() {
             </TableRow>
           ))}
 
-          {
-            rows.length===0?<Loadder/>:null
-          }
-
           {emptyRows > 0 && (
             <TableRow style={{ height: 53 * emptyRows }}>
               <TableCell colSpan={6} />
@@ -289,7 +286,7 @@ export default function UsersTable() {
             <TablePagination className={classes.paging}
               rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
               colSpan={3}
-              count={rows.length}
+              count={approvedUsers.length}
               rowsPerPage={rowsPerPage}
               page={page}
               SelectProps={{
@@ -304,5 +301,9 @@ export default function UsersTable() {
         </TableFooter>
       </Table>
     </TableContainer>
+    {
+        rows.length===0?<Loadder/>:null
+    }
+    </>
   );
 }

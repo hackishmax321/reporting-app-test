@@ -141,6 +141,7 @@ export default function DepartmentTable() {
   }, [])
 
   return (
+    <>
     <TableContainer component={Paper} className={classes.container}>
       <div className="ct-table-heading">
         <OrganizationModalDialog />
@@ -173,10 +174,6 @@ export default function DepartmentTable() {
             </TableRow>
           ))}
 
-          {
-            rows.length===0?<Loadder/>:null
-          }
-
           {emptyRows > 0 && (
             <TableRow style={{ height: 53 * emptyRows }}>
               <TableCell colSpan={6} />
@@ -203,5 +200,9 @@ export default function DepartmentTable() {
         </TableFooter>
       </Table>
     </TableContainer>
+    {
+        rows.length===0?<Loadder/>:null
+    }
+    </>
   );
 }

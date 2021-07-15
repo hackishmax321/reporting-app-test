@@ -19,7 +19,6 @@ import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import officials_service from '../../../services/officials_service';
 import organization_service from '../../../services/organization_service';
 import CustomButton from '../main/buttons/button';
-import OrganizationModalDialog from '../main/forms/organization-popup';
 import { Delete, Update } from '@material-ui/icons';
 import Loadder from '../loadder/loadder';
 // import {} from 'react-loading'
@@ -164,6 +163,7 @@ export default function OrganizationUsersTable(props) {
   }, [])
 
   return (
+    <>
     <TableContainer component={Paper} className={classes.container}>
       <div className="filter-pack">
         <CustomButton text={'APPROVED'} icon={null} color="success" onClick={()=>changeTable("ASSIGNED")}></CustomButton>
@@ -214,18 +214,7 @@ export default function OrganizationUsersTable(props) {
             </TableRow>
           ))}
 
-          {
-            officials.length===0?
-            <Loadder/>
-            // <LoadingOverlay
-            // // active={isActive}
-            // spinner
-            // text='Loading your content...'
-            // >
-            // <p>Some content or children or something.</p>
-            // </LoadingOverlay>
-            :null
-          }
+          
 
           {emptyRows > 0 && (
             <TableRow style={{ height: 53 * emptyRows }}>
@@ -253,5 +242,11 @@ export default function OrganizationUsersTable(props) {
         </TableFooter>
       </Table>
     </TableContainer>
+    {
+        officials.length===0?
+        <Loadder/>
+        :null
+    }
+    </>
   );
 }

@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import queryString from 'query-string';
 import organization_service from '../../services/organization_service';
 import OrganizationsUserTable from '../../components/containers/tables/table-mat-organization-users';
+import Loadder from '../../components/containers/loadder/loadder';
 
 
 const SingleOrganization = () => {
@@ -21,6 +22,7 @@ const SingleOrganization = () => {
     return (
         <>
             <div className="card">  
+            
                     <i class="far fa-building font-special"></i>
 
                     {
@@ -39,7 +41,7 @@ const SingleOrganization = () => {
                         </div>
                         :
 
-                        <></>
+                        <Loadder/>
                     }
                         
                     
