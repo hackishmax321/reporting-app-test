@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import { Field, Formik, Form, FormikConfig, FormikValues } from 'formik';
 import { makeStyles } from '@material-ui/core/styles';
-import { Card, CardContent, FormControl, InputLabel, OutlinedInput, Button, Box, MenuItem, Select, FormHelperText, Divider } from '@material-ui/core';
+import { Card, CardContent, FormControl, InputLabel, OutlinedInput, Button, Box, MenuItem, Select, FormHelperText, Divider, Grid } from '@material-ui/core';
 import { useForm, Controller } from 'react-hook-form';
 import Organization from '../../../../models/Organization';
 import organization_service from '../../../../services/organization_service';
+import Chips from '../../chips/chips';
+import EventEmitter from '../../../../utils/EventEmitter';
+import './forms.css';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -20,9 +23,19 @@ export default function OrganizationMultiForm(){
     const [address, setAddress] = useState('');
     const [info, setInfo] = useState('');
     const [contact, setContact] = useState('');
+    const [contacts, setContacts] = useState([]);
     const [incharge, setIncharge] = useState('');
     const [category, setCategory] = useState('');
     const [parent, setParent] = useState('');
+
+    // Error Messages 
+    var [nameError, setNameError] = useState('');
+    var [addressError, setAddressError] = useState('');
+    var [infoError, setInfoError] = useState('');
+    var [contactError, setContactError] = useState('');
+    var [inchargeError, setInchargeError] = useState('');
+    var [categoryError, setCategoryError] = useState('');
+    var [parentError, setParentError] = useState('');
 
     const [categories, setCategories] = useState([]);
 
@@ -30,9 +43,55 @@ export default function OrganizationMultiForm(){
 
     const classes = useStyles();
 
+    const inputValidation = () => {
+        let isError = false;
+        if(name.length===0){
+            setNameError("Can't keep Name input field Empty");
+            isError = true;            
+        } else {
+            setNameError('');
+        }
+        if(info.length===0){
+            setInfoError("Can't keep Address input field Empty");
+            isError = true;
+        } else {
+            setInfoError('');
+        }
+        if(address.length===0){
+            setAddressError("Can't keep Address input field Empty");
+            isError = true;
+        } else {
+            setAddressError('');
+        }
+        // if(contact.length===10){
+        //     setContactError("Can't keep Name input field Empty");
+        //     isError = true;            
+        // } else {
+        //     setContactError('');
+        // }
+        console.log(isError);
+        return isError;
+    }
+
+    const contactValidationAdd = () => {
+        if(contact.length!==10){
+            setContactError("Entered Contact Number is incorrect");
+            // isError = true;            
+        } else {
+            setContactError('');
+            setContacts(contacts=>[...contacts, {title: contact}]);
+        }
+    }
+
     const onOrganizationSubmit = () => {
-        var organization = new Organization(name, info, address, incharge, contact, category);
-        organization_service.addOrganization(organization);
+        var conlist = [];
+        if(inputValidation()){alert("Need to Resubmit");return} else{
+            contacts.forEach((contact)=>conlist.push(contact.title));
+            console.log(conlist);
+            var organization = new Organization(name, info, address, incharge, conlist, category);
+            organization_service.addOrganization(organization);
+        }
+        EventEmitter.emit("closePopup", {close:true});
     }
 
     return(
@@ -41,39 +100,57 @@ export default function OrganizationMultiForm(){
                         <form className={classes.root} noValidate autoComplete="off" onSubmit={(e)=>{e.preventDefault(); onOrganizationSubmit()}}>
                             <h4>Submit Organization Information</h4>
                             <Box paddingBottom={2}>
-                            <FormControl fullWidth variant="outlined">
+                            <FormControl fullWidth variant="outlined"
+                            error={nameError===''?false:true}>
                                 <InputLabel htmlFor="name">Name</InputLabel>
                                 <OutlinedInput  id="name" value={name}  label="Name" name="name" 
                                 onChange={(e)=>setName(e.target.value)}/>
                             </FormControl>
+                            <small className="fm-invalid">{nameError}</small>
                             </Box>
                             <Box paddingBottom={2}>
-                            <FormControl fullWidth variant="outlined">
+                            <FormControl fullWidth variant="outlined"
+                            error={infoError===''?false:true}>
                                 <InputLabel htmlFor="info">Details</InputLabel>
                                 <OutlinedInput  id="info" value={info}  label="Info" name="info"
                                 onChange={(e)=>setInfo(e.target.value)}/>
                             </FormControl>
+                            <small className="fm-invalid">{infoError}</small>
                             </Box>
                             <Box paddingBottom={2}>
-                            <FormControl fullWidth variant="outlined">
+                            <FormControl fullWidth variant="outlined"
+                            error={addressError===''?false:true}>
                                 <InputLabel htmlFor="address">Address</InputLabel>
                                 <OutlinedInput  id="address" value={address}  label="Address" name="address" 
                                 onChange={(e)=>setAddress(e.target.value)}/>
                             </FormControl>
+                            <small className="fm-invalid">{addressError}</small>
                             </Box>
                             <Box paddingBottom={2}>
-                            <FormControl fullWidth variant="outlined">
-                                <InputLabel htmlFor="contact">Contact</InputLabel>
-                                <OutlinedInput  id="contact" value={contact}  label="Contact" name="contact"
-                                onChange={(e)=>{setContact(e.target.value); console.log(e.target.value)}}/>
-                            </FormControl>
+                            <Grid container spacing={1}>
+                                <Grid item xs={6}>
+                                    <FormControl variant="outlined">
+                                        <InputLabel htmlFor="contact">Contact</InputLabel>
+                                        <OutlinedInput  id="contact" value={contact}  label="Contact" name="contact"
+                                        onChange={(e)=>{setContact(e.target.value); console.log(e.target.value)}}/>
+                                        <Button variant="contained" color="success"
+                                        onClick={()=>{contactValidationAdd()}}>ADD</Button>
+                                        <small className="fm-invalid">{contactError}</small>
+                                    </FormControl>
+                                    
+                                </Grid>
+                                <Grid item xs={6}>
+                                    <Chips type="normal" color="primary" values={contacts} />
+                                </Grid>
+                            </Grid>
+                            
                             </Box>
                             {/* <Box paddingBottom={2}>
-                            <FormControl fullWidth variant="outlined">
-                                <InputLabel htmlFor="category">Category</InputLabel>
-                                <OutlinedInput  id="category" value={category}  label="Category" name="category"
-                                onChange={(e)=>setCategory(e.target.value)}/>
-                            </FormControl>
+                                <FormControl variant="outlined">
+                                    <InputLabel htmlFor="contact">Contact</InputLabel>
+                                    <OutlinedInput  id="contact" value={contact}  label="Contact" name="contact"
+                                    onChange={(e)=>{setContact(e.target.value); console.log(e.target.value)}}/>
+                                </FormControl>
                             </Box> */}
                             <Box paddingBottom={2}>
                             <FormControl fullWidth variant="outlined" className={classes.formControl}>
@@ -85,14 +162,10 @@ export default function OrganizationMultiForm(){
                                 onChange={(e)=>setCategory(e.target.value)}
                                 label="Category"
                                 >
-                                <MenuItem value="">
-                                    <em>None</em>
-                                </MenuItem>
-                                <MenuItem value={"Social Health"}>Social Health</MenuItem>
-                                <MenuItem value={"Road Construction"}>Road Construction</MenuItem>
-                                <MenuItem value={"Other"}>Other</MenuItem>
+                                <MenuItem selected={true} value={"General"}>General</MenuItem>
                                 </Select>
                             </FormControl>
+                            <small className="fm-invalid">{categoryError}</small>
                             </Box>
                             {/* <Box paddingBottom={2}>
                             <FormControl fullWidth variant="outlined">

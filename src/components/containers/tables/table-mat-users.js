@@ -17,8 +17,9 @@ import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import officials_service from '../../../services/officials_service';
 import CustomButton from '../main/buttons/button';
-import { Delete, Update } from '@material-ui/icons';
+import { Delete, Update, Sort } from '@material-ui/icons';
 import Loadder from '../loadder/loadder';
+import { Button, Divider, Menu, MenuItem } from '@material-ui/core';
 
 const useStyles = makeStyles({
   overrides: {
@@ -39,7 +40,8 @@ const useStyles = makeStyles({
     overflowX: 'auto',
   },
   table: {
-    minWidth: 700
+    minWidth: 700,
+    borderCollapse:'collapse',
   },
 
 });
@@ -115,7 +117,7 @@ export default function UsersTable() {
   const [approvedUsers, setApprovedUsers] = useState([]);
   const [notapprovedUsers, setNotApprovedUsers] = useState([]);
   const [blockedUsers, setBlockedUsers] = useState([]);
-  const [type, setType] = useState('NOT APPROVED');
+  const [type, setType] = useState('APPROVED');
 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -141,7 +143,7 @@ export default function UsersTable() {
             } else if(user.status==='NOT APPROVED'){
                 console.log("NOT APPROVED");
                 setNotApprovedUsers(notapprovedUsers=>[...notapprovedUsers, user]);
-            } else if(user.status==='BLOCKED'){
+            } else if(user.status==='DISABLE'){
                 console.log("BLOCKED");
                 setBlockedUsers(blockedUsers=>[...blockedUsers, user]);
             }
@@ -160,6 +162,20 @@ export default function UsersTable() {
         await officials_service.updateOfficial(id, user);
     }
 
+    // MENU RELATED ============================================================
+    const [anchorEl, setAnchorEl] = React.useState(null);
+
+    const handleClick = (event) => {
+      setAnchorEl(event.currentTarget);
+    };
+
+    const handleClose = () => {
+      setAnchorEl(null);
+    };
+
+
+    // =============================================================== MOVE
+
     useEffect(() => {
         getData();
         return () => {
@@ -170,10 +186,28 @@ export default function UsersTable() {
   return (
     <>
     <TableContainer component={Paper} className={classes.container}>
-      <div className="filter-pack">
-        <CustomButton text={'APPROVED'} icon={null} color="success" onClick={()=>setType('APPROVED')}></CustomButton>
+      <div className="ct-table-heading">
+        {/* <CustomButton text={'APPROVED'} icon={null} color="success" onClick={()=>setType('APPROVED')}></CustomButton>
         <CustomButton text={'NOT APPROVED'} icon={null} color="warning" onClick={()=>setType('NOT APPROVED')}></CustomButton>
-        <CustomButton text={'BLOCKED'} icon={null} color="danger" onClick={()=>setType('DISABLE')}></CustomButton>
+        <CustomButton text={'BLOCKED'} icon={null} color="danger" onClick={()=>setType('DISABLE')}></CustomButton> */}
+        <Button variant="contained" color="primary" onClick={(e) => handleClick(e)}>
+          <Sort/>
+        </Button>
+        <br></br>
+        <Menu
+          id="simple-menu"
+          anchorEl={anchorEl}
+          keepMounted
+          open={Boolean(anchorEl)}
+          onClose={handleClose}
+        >
+          <MenuItem><CustomButton text={'APPROVED'} icon={null} color="success" onClick={()=>{setType('APPROVED'); setPage(0)}}></CustomButton></MenuItem>
+          <MenuItem><CustomButton text={'PENDING'} icon={null} color="warning" onClick={()=>{setType('NOT APPROVED'); setPage(0)}}></CustomButton></MenuItem>
+          <MenuItem><CustomButton text={'BLOCKED'} icon={null} color="secondary" onClick={()=>{setType('DISABLE'); setPage(0)}}></CustomButton></MenuItem>
+          <Divider/>
+          <MenuItem><CustomButton text={'ACCENDING'} icon={null} color="info" onClick={()=>handleClose}></CustomButton></MenuItem>
+          <MenuItem><CustomButton text={'DESENDING'} icon={null} color="info" onClick={()=>handleClose}></CustomButton></MenuItem>
+        </Menu>
         
       </div>
       <div className="ct-table-heading">
@@ -281,25 +315,34 @@ export default function UsersTable() {
             </TableRow>
           )}
         </TableBody>
-        <TableFooter>
-          <TableRow>
-            <TablePagination className={classes.paging}
-              rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
-              colSpan={3}
-              count={approvedUsers.length}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              SelectProps={{
-                inputProps: { 'aria-label': 'rows per page' },
-                native: true,
-              }}
-              onPageChange={handleChangePage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-              ActionsComponent={TablePaginationActions}
-            />
-          </TableRow>
-        </TableFooter>
       </Table>
+      {type==='NOT APPROVED'&&(<TablePagination
+        rowsPerPageOptions={[5, 10, 25]}
+        component="div"
+        count={notapprovedUsers.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onChangePage={handleChangePage}
+        onChangeRowsPerPage={handleChangeRowsPerPage}
+      />)}
+      {type==='APPROVED'&&(<TablePagination
+        rowsPerPageOptions={[5, 10, 25]}
+        component="div"
+        count={approvedUsers.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onChangePage={handleChangePage}
+        onChangeRowsPerPage={handleChangeRowsPerPage}
+      />)}
+      {type==='DISABLE'&&(<TablePagination
+        rowsPerPageOptions={[5, 10, 25]}
+        component="div"
+        count={blockedUsers.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onChangePage={handleChangePage}
+        onChangeRowsPerPage={handleChangeRowsPerPage}
+      />)}
     </TableContainer>
     {
         rows.length===0?<Loadder/>:null

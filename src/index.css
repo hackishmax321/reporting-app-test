@@ -55,6 +55,11 @@
     position: absolute;
     width: 1px;
   }
+  table {
+    /* display: table; */
+    /* table-layout: fixed; */
+    /* white-space: nowrap */
+  }
   
   table tr {
     border-bottom: 3px solid #ddd;
@@ -292,6 +297,12 @@ code {
   padding: 20px 10px;
 }
 
+.float-left {
+  position: relative;
+  float: left;
+  margin-right: 5px;
+}
+
 .float-right {
   position: relative;
   float: right;
@@ -300,4 +311,21 @@ code {
 
 .icon {
   font-size: 1.7rem;
+}
+
+.container-im {
+  width: 200px;
+  min-height: 200px;
+  background-color: rgb(223, 223, 223);
+  border-radius: 10px;
+}
+
+.container-im i {
+  font-size: 80px;
+}
+
+.container-flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

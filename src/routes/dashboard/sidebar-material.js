@@ -31,6 +31,7 @@ import Organizations from './organizations';
 import Main from './main';
 import Map from './map';
 import './dashboard.css';
+import { Grid } from '@material-ui/core';
 
 const drawerWidth = 270;
 
@@ -348,13 +349,15 @@ function ResponsiveDrawer(props) {
         </Hidden>
       </nav>
       <main className={classes.content}>
-        <div className={classes.toolbar}  />
-            <Switch>
+      <div className={classes.toolbar}  />
+      <Grid item xs={12}>
+        <Switch>
                 <Route path={path} exact component={Main}/>
                 <Route path={`${path}/users`}exact component={Users}/>
                 <Route path={`${path}/map`}exact component={Map}/>
                 <Route path={`${path}/organizations`} component={Organizations}/>
-            </Switch>
+        </Switch>
+      </Grid>
       </main>
     </div>
   );

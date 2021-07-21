@@ -19,14 +19,13 @@ import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import officials_service from '../../../services/officials_service';
 import organization_service from '../../../services/organization_service';
 import CustomButton from '../main/buttons/button';
-import { Delete, Update } from '@material-ui/icons';
+import { Delete, Sort, Update } from '@material-ui/icons';
 import Loadder from '../loadder/loadder';
-// import {} from 'react-loading'
-// import {} from ''
+import { Button, Divider, MenuItem, Menu } from '@material-ui/core';
 
 const useStyles = makeStyles({
   container: {
-    // maxHeight: '87vh',
+    // maxHeight: '47vh',
 
   },
 
@@ -37,6 +36,7 @@ const useStyles = makeStyles({
   },
   table: {
     minWidth: 650,
+    maxHeight: '25vh',
   },
 
 });
@@ -154,6 +154,20 @@ export default function OrganizationUsersTable(props) {
     setRows(await organization_service.getOrganizations())
   }
 
+  // MENU RELATED ============================================================
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+
+  // =============================================================== MOVE
+
   useEffect(() => {
     getAssigned();
     getOfficials();
@@ -165,9 +179,32 @@ export default function OrganizationUsersTable(props) {
   return (
     <>
     <TableContainer component={Paper} className={classes.container}>
-      <div className="filter-pack">
-        <CustomButton text={'APPROVED'} icon={null} color="success" onClick={()=>changeTable("ASSIGNED")}></CustomButton>
-        <CustomButton text={'ALL USERS'} icon={null} color="primary" onClick={()=>changeTable("ALL")}></CustomButton>
+      {/* <div className="filter-pack">
+        <CustomButton text={'APPROVED'} icon={null} color="success" onClick={()=>{changeTable("ASSIGNED"); setPage(0)}}></CustomButton>
+        <CustomButton text={'ALL USERS'} icon={null} color="primary" onClick={()=>{changeTable("ALL"); setPage(0);}}></CustomButton>
+      </div> */}
+      <div className="ct-table-heading">
+        {/* <CustomButton text={'APPROVED'} icon={null} color="success" onClick={()=>setType('APPROVED')}></CustomButton>
+        <CustomButton text={'NOT APPROVED'} icon={null} color="warning" onClick={()=>setType('NOT APPROVED')}></CustomButton>
+        <CustomButton text={'BLOCKED'} icon={null} color="danger" onClick={()=>setType('DISABLE')}></CustomButton> */}
+        <Button variant="contained" color="primary" onClick={(e) => handleClick(e)}>
+          <Sort/>
+        </Button>
+        <br></br>
+        <Menu
+          id="simple-menu"
+          anchorEl={anchorEl}
+          keepMounted
+          open={Boolean(anchorEl)}
+          onClose={handleClose}
+        >
+          <MenuItem><CustomButton text={'APPROVED'} icon={null} color="success" onClick={()=>{changeTable("ASSIGNED"); setPage(0)}}></CustomButton></MenuItem>
+          <MenuItem><CustomButton text={'ALL USERS'} icon={null} color="primary" onClick={()=>{changeTable("ALL"); setPage(0);}}></CustomButton></MenuItem>
+          <Divider/>
+          <MenuItem><CustomButton text={'ACCENDING'} icon={null} color="info" onClick={()=>handleClose}></CustomButton></MenuItem>
+          <MenuItem><CustomButton text={'DESENDING'} icon={null} color="info" onClick={()=>handleClose}></CustomButton></MenuItem>
+        </Menu>
+        
       </div>
       <Table className={classes.table} aria-label="simple table">
         <TableHead>
@@ -180,7 +217,9 @@ export default function OrganizationUsersTable(props) {
           </TableRow>
         </TableHead>
         <TableBody>
-            {type==="ASSIGNED"&&approved&&approved.length>0 && approved.map((row) => (
+            {type==="ASSIGNED"&&approved&&approved.length>0 && approved
+            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+            .map((row) => (
             <TableRow key={row.contactno}>
               <TableCell component="th" scope="row">
                 {row.contact}
@@ -197,7 +236,9 @@ export default function OrganizationUsersTable(props) {
             </TableRow>
           ))}
 
-            {type==="ALL"&&officials&&officials.length>0 && officials.map((row) => (
+            {type==="ALL"&&officials&&officials.length>0 && officials
+            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+            .map((row) => (
             <TableRow key={row.contactno}>
               {/* <TableCell component="th" scope="row">
                 {'1'}
@@ -222,25 +263,29 @@ export default function OrganizationUsersTable(props) {
             </TableRow>
           )}
         </TableBody>
-        <TableFooter>
-          <TableRow>
-            <TablePagination className={classes.paging}
-              rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
-              colSpan={3}
-              count={approved.length}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              SelectProps={{
-                inputProps: { 'aria-label': 'rows per page' },
-                native: true,
-              }}
-              onPageChange={handleChangePage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-              ActionsComponent={TablePaginationActions}
-            />
-          </TableRow>
-        </TableFooter>
       </Table>
+      {type==="ALL"&&
+      (<TablePagination
+        rowsPerPageOptions={[5, 10, 25]}
+        component="div"
+        count={officials.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onChangePage={handleChangePage}
+        onChangeRowsPerPage={handleChangeRowsPerPage}
+      />)
+      }
+      {type==="ASSIGNED"&&
+      (<TablePagination
+        rowsPerPageOptions={[5, 10, 25]}
+        component="div"
+        count={approved.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onChangePage={handleChangePage}
+        onChangeRowsPerPage={handleChangeRowsPerPage}
+      />)
+      }
     </TableContainer>
     {
         officials.length===0?

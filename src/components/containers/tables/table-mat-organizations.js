@@ -38,7 +38,6 @@ const useStyles = makeStyles({
   root: {
     width: '100%',
     display: 'flex',
-
     overflowX: 'auto',
   },
   table: {
@@ -136,6 +135,16 @@ export default function DepartmentTable() {
     setRows(await organization_service.getOrganizations())
   }
 
+  const deleteOrganization = async (id) => {
+    await organization_service.deleteOrganization(id)
+    // setOrganizations(await organization_service.getOrganization(id));
+  }
+
+  const updateOrganizationStatus = async (id, organization, status) => {
+    organization.status = status;
+    // setOrganizations(await organization_service.updateOrganization(id, organization))
+  }
+
   useEffect(() => {
     getData();
     return () => {
@@ -153,25 +162,33 @@ export default function DepartmentTable() {
         <TableHead>
           <TableRow>
             <TableCell>Name of Department</TableCell>
-            <TableCell align="right">Category</TableCell>
+            <TableCell align="right">Contact Numbers</TableCell>
             <TableCell align="right">Address</TableCell>
             <TableCell align="right">Incharge</TableCell>
             <TableCell align="right">Options</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows && rows.map((row) => (
+          {rows && rows
+          .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+          .map((row) => (
             <TableRow key={row.id}>
               <TableCell component="th" scope="row">
                 {row.name}
               </TableCell>
-              <TableCell align="right">{row.category}</TableCell>
+              <TableCell align="right">{row.contact[0]}, {row.contact[1]}</TableCell>
               <TableCell align="right">{row.address}</TableCell>
               <TableCell align="right">{row.incharge}</TableCell>
               <TableCell align="right">
 
                 <Link to={`${url}/organization?id=${row.id}`}><CustomButton text={'VIEW'} icon={null} color="primary" onClick={() => null}></CustomButton></Link>
-                <CustomButton text={'DELETE'} icon={null} color="danger" onClick={() => null}></CustomButton>
+                <CustomButton text={'DELETE'} icon={null} color="danger" onClick=
+                {
+                  ()=>{
+                      deleteOrganization(row.id);
+                      setRows(rows.filter(item => item.id !== row.id));
+                  }
+                }></CustomButton>
 
               </TableCell>
             </TableRow>
@@ -183,25 +200,16 @@ export default function DepartmentTable() {
             </TableRow>
           )}
         </TableBody>
-        <TableFooter>
-          <TableRow>
-            <TablePagination className={classes.paging}
-              rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
-              colSpan={3}
-              count={rows.length}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              SelectProps={{
-                inputProps: { 'aria-label': 'rows per page' },
-                native: true,
-              }}
-              onPageChange={handleChangePage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-              ActionsComponent={TablePaginationActions}
-            />
-          </TableRow>
-        </TableFooter>
       </Table>
+      <TablePagination
+        rowsPerPageOptions={[5, 10, 25]}
+        component="div"
+        count={rows.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onChangePage={handleChangePage}
+        onChangeRowsPerPage={handleChangeRowsPerPage}
+      />
     </TableContainer>
     {
         rows.length===0?<Loadder/>:null

@@ -2,13 +2,25 @@ import { createMuiTheme } from '@material-ui/core';
 
 
 export const theme = createMuiTheme({
-    palette: {
-        primary: {
-            main: "#fff"
+    overrides: {
+      MuiTableCell: {
+        root: {
+        fontSize:'1.4rem'
         }
-    },
-    overRidefonts: {
-        fontSize: 16,
-        fontFamily: 'Roboto, Helvetica, Arial, sans-serif',
-    },
+      },
+      MuiTypography: {
+        body2: {
+          fontSize: 12
+        },
+        body1: {
+          fontSize: 15,
+          fontWeight: 500
+        } 
+      },
+      MuiSvgIcon: {
+        root: {
+          fontSize:24
+        }
+      }
+    }
 });

@@ -5,38 +5,16 @@ import SignUpSide from './routes/register';
 import NavBar from './components/containers/navbar/navbar';
 import ResponsiveDrawer from './routes/dashboard/sidebar-material';
 import { theme } from './styles/temp_style';
-import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
+import { MuiThemeProvider } from "@material-ui/core/styles";
 
-const theme1 = createMuiTheme({
-  overrides: {
-    MuiTableCell: {
-      root: {
-      fontSize:'16px'
-      }
-    },
-    MuiTypography: {
-      body2: {
-        fontSize: 12
-      },
-      body1: {
-        fontSize: 15,
-        fontWeight: 500
-      } 
-    },
-    MuiSvgIcon: {
-      root: {
-        fontSize:24
-      }
-    }
-  }
-});
+
 
 function App() {
 
   console.log = console.warn = console.error = () => {};
   return (
     <div className="App">
-       <MuiThemeProvider theme={theme1}>
+       <MuiThemeProvider theme={theme}>
       <Router>
         <NavBar/>
         <Switch>

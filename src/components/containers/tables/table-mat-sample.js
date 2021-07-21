@@ -11,6 +11,8 @@ import Paper from "@material-ui/core/Paper";
 import officials_service from "../../../services/officials_service";
 import Chips from "../chips/chips";
 import Loadder from "../loadder/loadder";
+import CustomButton from "../main/buttons/button";
+import { Button } from "@material-ui/core";
 
 
 const useStyles = makeStyles({
@@ -20,6 +22,32 @@ const useStyles = makeStyles({
   }
 });
 
+function descendingComparator(a, b, orderBy) {
+  if (b[orderBy] < a[orderBy]) {
+    return -1;
+  }
+  if (b[orderBy] > a[orderBy]) {
+    return 1;
+  }
+  return 0;
+}
+
+function getComparator(order, orderBy) {
+  return order === 'desc'
+    ? (a, b) => descendingComparator(a, b, orderBy)
+    : (a, b) => -descendingComparator(a, b, orderBy);
+}
+
+function stableSort(array, comparator) {
+  const stabilizedThis = array.map((el, index) => [el, index]);
+  stabilizedThis.sort((a, b) => {
+    const order = comparator(a[0], b[0]);
+    if (order !== 0) return order;
+    return a[1] - b[1];
+  });
+  return stabilizedThis.map((el) => el[0]);
+}
+
 export default function SampleTable() {
   const classes = useStyles();
   var [rows, setRows] = useState([]);
@@ -27,14 +55,30 @@ export default function SampleTable() {
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
   const getData = async () => {
+    console.log("HII");
     await officials_service.getOfficials().then((users)=>{
         setRows(users);
+        
         
     })
   }
 
+  const sortData = (array) => {
+    console.log("SRT");
+    if(array.length>0){
+      array.sort((a,b)=>{
+        if (a.username < b.username) { return -1; }
+        if (a.username > b.username) { return 1; }
+        return 0;
+      })
+    }
+    console.debug(array);
+    return array;
+  }
+
   useEffect(() => {
     getData();
+    
     return () => {
       
     }
@@ -53,8 +97,8 @@ export default function SampleTable() {
 
   return (
     <>
-    
     <TableContainer component={Paper}>
+      <Button onClick={()=>setRows(sortData(rows))}>SORT</Button>
       <Table className={classes.table} aria-label="simple table">
         <TableHead>
           <TableRow>
