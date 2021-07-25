@@ -29,7 +29,7 @@ class EmployeeService {
     async getOrganizations(){
         organizations_list = [];
         await axios.get(path).then((response)=>{
-            response.data.results.forEach(doc=>{
+            response.data.forEach(doc=>{
                 organizations_list.push(doc);
             });
             console.log(organizations_list)
@@ -62,9 +62,7 @@ class EmployeeService {
         await axios.delete(`${path}/${id}`).then((response)=>{
         }).catch(handleErrors);
         alert("Selected Organization Removed");
-    }
-
-    
+    }    
 }
 
 export default new EmployeeService();

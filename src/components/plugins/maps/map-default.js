@@ -1,3 +1,4 @@
+import { Button } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import { GoogleMap, Marker, withScriptjs, withGoogleMap, DirectionsRenderer, InfoWindow } from "react-google-maps"
 import issues_service from '../../../services/issues_service';
@@ -5,6 +6,7 @@ import './maps.css';
 
 const Map = (props) => {
     const [ issues, setIssues ] = useState(); 
+    const [ counter, setCounter] = useState(0);
     const [selectedMarker, setSelectedMarker] = useState(null);
     // const [directions, setDirectios] = useState(null);
     const loadIssues = async () => {
@@ -25,6 +27,8 @@ const Map = (props) => {
     
 
     return (
+
+      <>
         <GoogleMap
             defaultZoom={14}
             defaultCenter={{ lat: 6.5854, lng: 79.9607}}
@@ -37,7 +41,6 @@ const Map = (props) => {
             ):<></>
           }
   
-            {/* <Marker position={{ lat: 6.5854, lng: 79.9607}}/> */}
             {
                 selectedMarker&&(
                   <InfoWindow  position={{ lat: selectedMarker.location.coordinates[0], lng: selectedMarker.location.coordinates[1]}}
@@ -74,6 +77,31 @@ const Map = (props) => {
             }
             
         </GoogleMap>
+        {selectedMarker&&(<div className="map-pannel">
+            <div className="content text-left">
+              <div className="info-im">
+                  {/* <img src={'assets/resources/map.png'} alt="location"/> */}
+              </div>
+              <h3>{selectedMarker.title||"ISSUE NAME"}</h3>
+              <p>{selectedMarker.description||"Issue Description"}</p>
+              <p>The world's most popular and easiest to use icon set just got an upgrade. More icons. More styles. More Options.</p>
+
+              <div className="text-center">
+                <p><span className="pannel-highlight"><i class="far fa-thumbs-up"></i> {selectedMarker.votescount.upvote} | 
+                {selectedMarker.votescount.downvote}
+                </span></p>
+                {/* <p><span className="pannel-highlight"><i class="far fa-thumbs-up"></i> 0</span></p> */}
+                
+                <Button variant="contained" color="primary">MARK</Button>
+                
+              </div>
+            </div>
+            <div className="footer text-center">
+            <br></br>
+              <i class="fas fa-arrow-circle-left"></i>
+            </div>
+        </div>)}
+      </>
     );
 
 }

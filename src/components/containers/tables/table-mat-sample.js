@@ -63,7 +63,22 @@ export default function SampleTable() {
     })
   }
 
-  const sortData = (array) => {
+  const sortData = (array, order, orderBy) => {
+    if(array.length>0){
+      array.sort((a,b)=>{
+        if (a[orderBy] < b[orderBy]) { return -1; }
+        if (a[orderBy] > b[orderBy]) { return 1; }
+        return 0;
+      })
+      if(order==='descending') array.reverse();
+    }
+    // console.debug(array[0][orderBy]);
+    
+    setRows((rows)=>null);
+    setRows([...array]);
+  }
+
+  const sortDataOriginal = (array) => {
     console.log("SRT");
     if(array.length>0){
       array.sort((a,b)=>{
@@ -73,7 +88,8 @@ export default function SampleTable() {
       })
     }
     console.debug(array);
-    return array;
+    setRows((rows)=>null);
+    setRows([...array]);
   }
 
   useEffect(() => {
@@ -98,15 +114,26 @@ export default function SampleTable() {
   return (
     <>
     <TableContainer component={Paper}>
-      <Button onClick={()=>setRows(sortData(rows))}>SORT</Button>
       <Table className={classes.table} aria-label="simple table">
         <TableHead>
           <TableRow>
             <TableCell>No.</TableCell>
-            <TableCell align="left">Contact No. (Username)</TableCell>
-            <TableCell align="left">Name</TableCell>
-            <TableCell align="left">NIC No.</TableCell>
-            <TableCell align="left">User Status</TableCell>
+            <TableCell align="left">Contact No. (Username) |
+              <i class="fas fa-arrow-circle-up" onClick={()=>sortData(rows, 'acendings', 'contactno')}></i> 
+              <i class="fas fa-arrow-circle-down" onClick={()=>sortData(rows, 'descending', 'contactno')}></i>
+            </TableCell>
+            <TableCell align="left">Name |
+              <i class="fas fa-arrow-circle-up" onClick={()=>sortData(rows, 'acendings', 'username')}></i> 
+              <i class="fas fa-arrow-circle-down" onClick={()=>sortData(rows, 'descending', 'username')}></i>
+            </TableCell>
+            <TableCell align="left">NIC No. |
+              <i class="fas fa-arrow-circle-up" onClick={()=>sortData(rows, 'acendings', 'nic')}></i> 
+              <i class="fas fa-arrow-circle-down" onClick={()=>sortData(rows, 'descending', 'nic')}></i>
+            </TableCell>
+            <TableCell align="left">User Status |
+              <i class="fas fa-arrow-circle-up" onClick={()=>sortData(rows, 'acendings', 'status')}></i> 
+              <i class="fas fa-arrow-circle-down" onClick={()=>sortData(rows, 'descending', 'status')}></i>
+            </TableCell>
           </TableRow>
         </TableHead>
         

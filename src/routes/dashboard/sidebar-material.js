@@ -205,9 +205,9 @@ function ResponsiveDrawer(props) {
       <Divider />
       <List>
         <Link to={url}>
-        <ListItem button key={'BRIEF'} onClick={()=>setTopic('INTRODUCTION')}>
+        <ListItem button key={'DASHBOARD'} onClick={()=>setTopic('DASHBOARD')}>
             <ListItemIcon><Details /></ListItemIcon>
-            <ListItemText primary={'Introduction'} />
+            <ListItemText primary={'Dashboard'} />
         </ListItem>
         </Link>
         <Link to={`${url}/organizations`}>

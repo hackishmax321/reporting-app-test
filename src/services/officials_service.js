@@ -5,6 +5,7 @@ import {handleErrors} from './error_handling';
 
 // import Employee from '../models/Patient';
 
+// "https://reporting-app-clab-test.herokuapp.com/v1/officials"
 
 const path = "https://reporting-app-clab-test.herokuapp.com/v1/officials";
 var officials_list = [];
@@ -38,13 +39,13 @@ class EmployeeService {
         console.log("Officials loaded");
         await axios.get(path).then((response)=>{
             if(category){
-                response.data.results.forEach(doc=>{
+                response.data.forEach(doc=>{
                     if(category===doc.status){
                         officials_list.push(doc);
                     }
                 });
             } else {
-                response.data.results.forEach(doc=>{
+                response.data.forEach(doc=>{
                     officials_list.push(doc);
                 });
             }
@@ -57,13 +58,13 @@ class EmployeeService {
         officials_list = [];
         await axios.get(`${path}/byOrganization/${org}`).then((response)=>{
             if(category){
-                response.data.results.forEach(doc=>{
+                response.data.forEach(doc=>{
                     if(category===doc.status){
                         officials_list.push(doc);
                     }
                 });
             } else {
-                response.data.results.forEach(doc=>{
+                response.data.forEach(doc=>{
                     officials_list.push(doc);
                 });
             }
